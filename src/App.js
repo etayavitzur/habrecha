@@ -13,12 +13,20 @@ import {
 const DONATE_URL = "https://www.bitpay.co.il/app/me/73EF2B16-D8BC-B7F6-E6B3-3A940D92593CFCF";
 const ACCENT_COLOR = "#84856d"; // צבע הכותרת
 
-function daysAgo(date) {
+function timeAgo(date) {
   if (!date) return "-";
   const now = new Date();
-  const diff = now - date;
-  return Math.floor(diff / (1000 * 60 * 60 * 24));
+  const diffMs = now - date; // ההפרש במילישניות
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays >= 1) {
+    return `${diffDays} ימים`;
+  } else {
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    return `${diffHours} שעות`;
+  }
 }
+
 
 function normalizeCreatedAt(createdAt) {
   if (!createdAt) return null;
@@ -224,23 +232,25 @@ export default function App() {
             </div>
 
             <div style={{ padding: 12, textAlign: "right" }}>
-              <div style={{ color: "#666", fontSize: 13, marginBottom: 8 }}>
-                עברו {current.createdAt ? daysAgo(current.createdAt) : "-"} ימים מאז העדכון
+              <div style={{ color: "#000", fontSize: 13,fontWeight: "700", marginBottom: 8 }}>
+                עברו {current.createdAt ? timeAgo(current.createdAt) : "-"} מאז העדכון
+
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10, justifyContent: "flex-end" }}>
-                <div style={{ display: "flex", gap: 6 }}>
-                  {[1,2,3,4,5].map(n => (
-                    <div key={n} style={{
-                      width: 14, height: 14, borderRadius: 7,
-                      background: n <= (current.rating || 0) ? (n <= 2 ? "#ff6b6b" : n === 3 ? "#ffb74d" : "#66bb6a") : "#eee"
-                    }} />
-                  ))}
-                </div>
-                <div style={{ color: "#333", fontSize: 14 }}>
-                  דירוג ניקיון: {current.rating ?? "-"} {current.ratingText ? `• ${current.ratingText}` : ""}
-                </div>
-              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10, justifyContent: "flex-end", flexDirection: "row-reverse" }}>
+  <div style={{ display: "flex", gap: 6 }}>
+    {[1,2,3,4,5].map(n => (
+      <div key={n} style={{
+        width: 14, height: 14, borderRadius: 7,
+        background: n <= (current.rating || 0) ? (n <= 2 ? "#ff6b6b" : n === 3 ? "#ffb74d" : "#66bb6a") : "#eee"
+      }} />
+    ))}
+  </div>
+  <div style={{ color: "#333", fontSize: 14, textAlign: "right" }}>
+    דירוג ניקיון: {current.rating ?? "-"} {current.ratingText ? `• ${current.ratingText}` : ""}
+  </div>
+</div>
+
 
               <div style={{
                 background: "#fff",
@@ -260,7 +270,15 @@ export default function App() {
 
         {/* About */}
         <section id="about" style={{ marginTop: 18, paddingBottom: 40, textAlign: "right", fontFamily: "'Cardo', serif" }}>
-          <h3 style={{ color: ACCENT_COLOR, marginBottom: 8 }}>מעיין לזכר נופלי מלחמת חרבות ברזל</h3>
+          <h3 style={{
+  color: ACCENT_COLOR,
+  marginBottom: 8,
+  fontWeight: 700,   // מודגש
+  fontSize: 20       // גודל גדול יותר
+}}>
+  מעיין לזכר נופלי מלחמת חרבות ברזל
+</h3>
+
           <p style={{ color: "#444", lineHeight: 1.5 }}>
             המקום נבנה על ידי נוער סנסנה. הושקעו כספים ומאמץ רב כדי לבנות ולתחזק את הבריכה.
             נשמח אם תוכלו לקחת חלק בעשייה שלנו.
@@ -270,14 +288,28 @@ export default function App() {
 {/* Horizontal gallery */}
 {updates.length > 1 && (
   <div style={{ marginTop: 8 }}>
-    <div style={{ fontSize: 13, color: "#666", marginBottom: 8, textAlign: "right" }}>היסטוריית עדכונים</div>
+    <h3 style={{ 
+  fontFamily: "'Cardo', serif",  // הפונט של הכותרת
+  fontSize: 16,                  // גודל שאתה רוצה
+  color: "#666", 
+  marginBottom: 8, 
+  textAlign: "right" 
+}}>
+  היסטוריית עדכונים
+</h3>
+
     <div style={{
-      display: "flex",
-      gap: 12,
-      overflowX: "auto",
-      paddingBottom: 8,
-      justifyContent: "flex-end"
-    }}>
+  display: "flex",
+  gap: 12,
+  overflowX: "auto",
+  paddingBottom: 8,
+  flexDirection: "row",
+  direction: "rtl" 
+}}>
+
+
+
+
       {updates.map((u, idx) => (
         <div
           key={u.id || idx}
@@ -335,7 +367,7 @@ export default function App() {
           const el = document.getElementById("about");
           if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
         }}>
-          <img src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/info.png?alt=media&token=6e3636de-be47-4219-9ec1-575c418e5caf" alt="אודות" style={{ width: 30, height: 30 }} />
+          <img src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/info%20(2).png?alt=media&token=0526caa6-3014-45d6-81d1-c00c6c6fdfc4" alt="אודות" style={{ width: 30, height: 30 }} />
           <div style={{ fontSize: 12, marginTop: 4 }}>אודות</div>
         </div>
 
@@ -364,7 +396,7 @@ export default function App() {
         {/* השתתפו איתנו */}
         <div style={{ textAlign: "center", color: "#fff" }}>
           <a href={DONATE_URL} target="_blank" rel="noreferrer" style={{ color: "#fff", textDecoration: "none" }}>
-            <img src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/mercy.png?alt=media&token=012b5125-46ec-4936-bf49-e35c0b9d0e58" alt="השתתפו איתנו" style={{ width: 30, height: 30 }} />
+            <img src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/mercy%20(2).png?alt=media&token=374923e4-edd3-4ca3-931a-6e7b4897e5a7" alt="השתתפו איתנו" style={{ width: 30, height: 30 }} />
             <div style={{ fontSize: 12, marginTop: 4 }}>השתתפו איתנו</div>
           </a>
         </div>
