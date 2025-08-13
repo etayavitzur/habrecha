@@ -10,7 +10,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
-const DONATE_URL = "https://www.bitpay.co.il/app/me/73EF2B16-D8BC-B7F6-E6B3-3A940D92593CFCF2";
+const DONATE_URL = "https://www.bitpay.co.il/app/me/73EF2B16-D8BC-B7F6-E6B3-3A940D92593CFCF";
 const ACCENT_COLOR = "#84856d"; // צבע הכותרת
 
 function daysAgo(date) {
@@ -258,53 +258,9 @@ export default function App() {
           </section>
         )}
 
-        {/* Horizontal gallery */}
-        {updates.length > 1 && (
-          <div style={{ marginTop: 8 }}>
-            <div style={{ fontSize: 13, color: "#666", marginBottom: 8, textAlign: "right" }}>היסטוריית עדכונים</div>
-            <div style={{
-              display: "flex",
-              gap: 12,
-              overflowX: "auto",
-              paddingBottom: 8,
-              justifyContent: "flex-end"
-            }}>
-              {updates.map((u, idx) => (
-                <div
-                  key={u.id || idx}
-                  onClick={() => showUpdateAt(idx)}
-                  style={{
-                    minWidth: 120,
-                    cursor: "pointer",
-                    borderRadius: 14,
-                    overflow: "hidden",
-                    boxShadow: idx === currentIndex ? "0 8px 20px rgba(0,0,0,0.12)" : "0 6px 14px rgba(0,0,0,0.06)",
-                    transform: idx === currentIndex ? "translateY(-6px)" : "translateY(0)",
-                    transition: "all 220ms",
-                    background: "#fff"
-                  }}
-                >
-                  <img src={u.imageUrl} alt="thumb" style={{ width: "100%", height: 80, objectFit: "cover" }} />
-                  <div style={{ padding: 8 }}>
-                    <div style={{ fontSize: 12, color: ACCENT_COLOR }}>{u.createdAt ? u.createdAt.toLocaleDateString() : "-"}</div>
-                    <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
-                      {[1,2,3,4,5].map(n => (
-                        <div key={n} style={{
-                          width: 8, height: 8, borderRadius: 4,
-                          background: n <= (u.rating || 0) ? (n <= 2 ? "#ff6b6b" : n === 3 ? "#ffb74d" : "#66bb6a") : "#eee"
-                        }} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* About */}
         <section id="about" style={{ marginTop: 18, paddingBottom: 40, textAlign: "right", fontFamily: "'Cardo', serif" }}>
-          <h3 style={{ color: ACCENT_COLOR, marginBottom: 8 }}>מעיין לזכל נופלי מלחמת חרבות ברזל</h3>
+          <h3 style={{ color: ACCENT_COLOR, marginBottom: 8 }}>מעיין לזכר נופלי מלחמת חרבות ברזל</h3>
           <p style={{ color: "#444", lineHeight: 1.5 }}>
             המקום נבנה על ידי נוער סנסנה. הושקעו כספים ומאמץ רב כדי לבנות ולתחזק את הבריכה.
             נשמח אם תוכלו לקחת חלק בעשייה שלנו.
@@ -314,35 +270,33 @@ export default function App() {
 
       {/* Bottom nav */}
       <nav style={{
-  position: "fixed",
-  bottom: 12,
-  left: "50%",
-  transform: "translateX(-50%)",
-  width: "65%",
-  maxWidth: 360,
-  background: ACCENT_COLOR,
-  borderRadius: 999,
-  padding: "4px 8px",        // מקטין את הגובה בחצי
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-  zIndex: 40
-}}>
+        position: "fixed",
+        bottom: 10,
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "100%",
+        maxWidth: 600,
+        background: ACCENT_COLOR,
+        borderRadius: 999,
+        padding: "2px 4px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+		gap: "70px",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+        zIndex: 40
+      }}>
 
-
-
-
-
-
+        {/* אודות */}
         <div style={{ textAlign: "center", color: "#fff", cursor: "pointer" }} onClick={() => {
           const el = document.getElementById("about");
           if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
         }}>
-          <div style={{ fontSize: 30 }}>ℹ️</div>
+          <img src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/info.png?alt=media&token=6e3636de-be47-4219-9ec1-575c418e5caf" alt="אודות" style={{ width: 24, height: 24 }} />
           <div style={{ fontSize: 12, marginTop: 4 }}>אודות</div>
         </div>
 
+        {/* הוסף עדכון */}
         <div style={{ textAlign: "center", transform: "translateY(-14px)" }}>
           <button
             onClick={() => setShowUploadModal(true)}
@@ -364,12 +318,14 @@ export default function App() {
           <div style={{ fontSize: 12, color: "#fff", marginTop: 4 }}>הוסף עדכון</div>
         </div>
 
+        {/* השתתפו איתנו */}
         <div style={{ textAlign: "center", color: "#fff" }}>
           <a href={DONATE_URL} target="_blank" rel="noreferrer" style={{ color: "#fff", textDecoration: "none" }}>
-            <div style={{ fontSize: 50 }}>🎁</div>
-            <div style={{ fontSize: 12, marginTop: 4 }}>תרומה</div>
+            <img src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/mercy.png?alt=media&token=012b5125-46ec-4936-bf49-e35c0b9d0e58" alt="השתתפו איתנו" style={{ width: 24, height: 24 }} />
+            <div style={{ fontSize: 12, marginTop: 4 }}>השתתפו איתנו</div>
           </a>
         </div>
+
       </nav>
 
       {/* Upload Modal */}
