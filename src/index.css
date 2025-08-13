@@ -1,39 +1,164 @@
-/* גוף הדף */
-body {
+/* פונטים */
+@import url('https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Varela+Round&display=swap');
+
+/* אפס ריווח ו-padding גלובליים */
+* {
   margin: 0;
-  font-family: 'Varela Round', sans-serif;
-  direction: rtl;
-  text-align: right;
-  background-image: url('https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/background_mobile_new.webp?alt=media&token=ecc773a6-b1b6-433d-8157-6bb41f736e5a');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* פונטים עבור כותרות */
+/* גוף האתר */
+body {
+  font-family: 'Varela Round', sans-serif;
+  background: url('https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/background_mobile_new.webp?alt=media&token=ecc773a6-b1b6-433d-8157-6bb41f736e5a') no-repeat center/cover;
+  color: #333;
+  min-height: 100vh;
+  text-align: right; /* יישור טקסטים לימין */
+  direction: rtl;
+}
+
+/* כותרות */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Cardo', serif;
+  color: #84856d; /* צבע הכותרות */
+  margin-bottom: 12px;
+  text-align: center; /* כותרות במרכז */
 }
 
-/* עיצוב כותרות */
-h1 { font-size: 36px; margin-bottom: 20px; }
-h2 { font-size: 30px; margin-bottom: 15px; }
-
-/* עיצוב טקסט ב־code */
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+/* קישורים */
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-/* Overlay */
-.overlay {
+/* לחצנים */
+button {
+  font-family: 'Varela Round', sans-serif;
+  cursor: pointer;
+  outline: none;
+}
+
+/* קלטים וטקסט אריאס */
+input, textarea {
+  font-family: 'Varela Round', sans-serif;
+  text-align: right;
+}
+
+/* גלריה גלילה אופקית */
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding-bottom: 8px;
+  justify-content: center; /* יישור גלריה למרכז */
+}
+
+/* גלריה פריט */
+.scroll-item {
+  min-width: 120px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  transition: all 220ms;
+}
+
+.scroll-item.active {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* כרטיס עדכון */
+.update-card {
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  margin: 0 auto 12px auto; /* ממורכז למרכז */
+  max-width: 720px;
+  text-align: right;
+}
+
+/* כרטיס מידע פנימי */
+.update-info {
+  padding: 12px;
+}
+
+/* דירוג נקודות */
+.rating-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: #eee;
+}
+
+.rating-dot.active {
+  background: #66bb6a;
+}
+
+/* תיבת הערות */
+.comments-box {
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  color: #444;
+  font-size: 14px;
+  min-height: 44px;
+  text-align: right;
+}
+
+/* תפריט תחתון */
+.bottom-nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.4);
-  z-index: -1;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%; /* הצרתי את התפריט מ-90% ל-80% */
+  max-width: 400px; /* מקסימום רחב */
+  background: #84856d;
+  border-radius: 999px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 40;
+}
+
+/* לחצן מרכזי בתפריט */
+.bottom-nav .center-button {
+  width: 72px;
+  height: 72px;
+  border-radius: 36px;
+  background: #fff;
+  border: none;
+  font-size: 34px;
+  font-weight: 700;
+  color: #84856d;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* כפתורי שליחה */
+button.submit-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #84856d;
+  color: #fff;
+  font-weight: 700;
+}
+
+button.cancel-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: #fff;
 }

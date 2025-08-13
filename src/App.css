@@ -1,76 +1,76 @@
-.app-container { font-family: Arial, sans-serif; background: #fff; min-height: 100vh; padding-bottom: 140px; }
-.app-header { padding: 18px; text-align: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 20; background: #fff; }
-.app-main { max-width: 720px; margin: 10px auto; padding: 0 14px; }
-.card-placeholder { height: 260px; border-radius: 20px; background: #fafafa; display: flex; align-items: center; justify-content: center; color: #999; margin-bottom: 12px; }
-.update-card { border-radius: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.06); overflow: hidden; background: #fff; margin-bottom: 12px; }
-.image-wrapper { position: relative; }
-.date-pill { position: absolute; left: 12px; top: 12px; background: rgba(255,255,255,0.9); padding: 6px 10px; border-radius: 20px; font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); z-index: 2; color: #84856d; }
-.update-image { display: block; width: 100%; height: 260px; object-fit: cover; }
-.card-info { padding: 12px; }
-.days-ago { color: #666; font-size: 13px; margin-bottom: 8px; }
-.rating-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.rating-dots { display: flex; gap: 6px; }
-.rating-dots .dot { width: 14px; height: 14px; border-radius: 7px; background: #eee; }
-.rating-dots .dot.low { background: #ff6b6b; }
-.rating-dots .dot.mid { background: #ffb74d; }
-.rating-dots .dot.high { background: #66bb6a; }
-.rating-text { color: #333; font-size: 14px; }
-.comments-box { background: #fff; border-radius: 14px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); color: #444; font-size: 14px; min-height: 44px; }
-.history-gallery { margin-top: 8px; }
-.gallery-label { font-size: 13px; color: #666; margin-bottom: 8px; }
-.gallery-wrapper { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
-.gallery-thumb { min-width: 120px; cursor: pointer; border-radius: 14px; overflow: hidden; box-shadow: 0 6px 14px rgba(0,0,0,0.06); transform: translateY(0); transition: all 220ms; background: #fff; }
-.gallery-thumb.active { transform: translateY(-6px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-.gallery-thumb img { width: 100%; height: 80px; object-fit: cover; }
-.thumb-info { padding: 8px; display: flex; gap: 6px; flex-direction: column; }
-.thumb-date { font-size: 12px; color: #84856d; }
-.thumb-dots { display: flex; gap: 2px; }
-.thumb-dots .dot { width: 8px; height: 8px; border-radius: 4px; background: #eee; }
-.thumb-dots .dot.low { background: #ff6b6b; }
-.thumb-dots .dot.mid { background: #ffb74d; }
-.thumb-dots .dot.high { background: #66bb6a; }
-.about-section { margin-top: 18px; padding-bottom: 40px; color: #444; line-height: 1.5; }
-
-/* ----------- תפריט תחתון ממורכז ----------- */
-.bottom-nav {
-  position: fixed;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 720px;
-  border-radius: 999px;
-  padding: 8px 16px;
-  display: flex;
-  justify-content: center; /* מרכז את כל הפריטים */
-  gap: 40px; /* רווח בין הפריטים */
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  z-index: 40;
-  color: #fff;
+/* רקע האתר */
+body {
+  background-image: url('https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/background_mobile_new.webp?alt=media&token=ecc773a6-b1b6-433d-8157-6bb41f736e5a');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Varela Round', sans-serif; /* ברירת מחדל לכל הטקסט */
+  margin: 0;
+  direction: rtl;
 }
-.nav-item, .nav-item-center {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.add-button { width: 72px; height: 72px; border-radius: 36px; background: #fff; border: none; color: #84856d; font-size: 34px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 26px rgba(0,0,0,0.18); }
-.add-label { font-size: 12px; color: #fff; margin-top: 8px; }
 
-/* ----------- מודאל העלאה ----------- */
-.upload-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 80; padding: 16px; }
-.upload-box { width: 100%; max-width: 420px; background: #fff; border-radius: 16px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
-.file-label { display: block; border-radius: 12px; border: 2px dashed #e6e6e6; padding: 18px; text-align: center; cursor: pointer; margin-bottom: 14px; }
-.file-label input { display: none; }
-.rating-select { margin-bottom: 12px; }
-.rating-buttons { display: flex; gap: 8px; }
-.rating-buttons button { flex: 0 0 40px; height: 40px; border-radius: 20px; border: 1px solid #e0e0e0; background: #f3f3f3; color: #666; cursor: pointer; }
-.rating-buttons button.selected { background: #84856d; color: #fff; }
-textarea { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #e6e6e6; margin-bottom: 12px; }
-.upload-actions { display: flex; gap: 8px; }
-.upload-actions button:first-child { flex: 1; padding: 12px; border-radius: 12px; border: none; background: #84856d; color: #fff; font-weight: 700; }
-.upload-actions button:last-child { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid #ddd; background: #fff; }
-.limit-popup { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); z-index: 200; }
-.limit-popup > div { background: #fff; padding: 18px; border-radius: 12px; width: 90%; max-width: 320px; text-align: center; }
-.limit-popup button { padding: 10px 18px; border-radius: 10px; border: none; background: #84856d; color: #fff; }
+/* כותרות */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cardo', serif; /* פונט לכותרות */
+  margin: 0;
+  color: #84856d; /* צבע הכותרת */
+}
+
+/* קישורים */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* כפתורים */
+button {
+  font-family: 'Varela Round', sans-serif;
+  cursor: pointer;
+}
+
+/* Scrollbar אופקי בגלריה */
+::-webkit-scrollbar {
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+}
+
+/* טופס העלאה */
+input[type="file"] {
+  display: none;
+}
+
+/* כרטיס עדכון */
+.update-card {
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 12px;
+}
+
+/* מידע על עדכון */
+.update-info {
+  padding: 12px;
+}
+
+.update-rating-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.update-comments {
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  color: #444;
+  font-size: 14px;
+  min-height: 44px;
+}
