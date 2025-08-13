@@ -1,4 +1,9 @@
 {
+  "functions": {
+	"source": "functions",
+	"runtime": "nodejs18",
+	"maxInstances": 10
+   },
   "storage": {
     "rules": "storage.rules"
   }
