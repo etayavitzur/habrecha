@@ -274,7 +274,8 @@ export default function App() {
   color: ACCENT_COLOR,
   marginBottom: 8,
   fontWeight: 700,   // מודגש
-  fontSize: 20       // גודל גדול יותר
+  fontSize: 20   // גודל גדול יותר
+  
 }}>
   מעיין לזכר נופלי מלחמת חרבות ברזל
 </h3>
@@ -405,17 +406,26 @@ export default function App() {
 
       {/* Upload Modal */}
       {showUploadModal && (
-        <div style={{
-          position: "fixed", inset: 0,
-          background: "rgba(0,0,0,0.45)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          zIndex: 80, padding: 16
-        }}>
-          <div style={{
-            width: "100%", maxWidth: 420,
-            background: "#fff", borderRadius: 16, padding: 18,
-            boxShadow: "0 10px 30px rgba(0,0,0,0.25)"
-          }}>
+  <div style={{
+    position: "fixed",
+    top: 0, left: 0,
+    width: "100vw",
+    height: "100vh",
+    background: "rgba(0,0,0,0.45)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 80
+  }}>
+    <div style={{
+      width: "90%",
+      maxWidth: 420,
+      background: "#fff",
+      borderRadius: 16,
+      padding: 18,
+      boxShadow: "0 10px 30px rgba(0,0,0,0.25)"
+    }}>
+
             <h2 style={{ marginTop: 0, color: ACCENT_COLOR, fontFamily: "'Cardo', serif" }}>הוסף עדכון</h2>
 
             <form onSubmit={handleUploadSubmit}>
