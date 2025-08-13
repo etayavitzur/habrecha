@@ -267,6 +267,49 @@ export default function App() {
           </p>
         </section>
       </main>
+{/* Horizontal gallery */}
+{updates.length > 1 && (
+  <div style={{ marginTop: 8 }}>
+    <div style={{ fontSize: 13, color: "#666", marginBottom: 8, textAlign: "right" }}>היסטוריית עדכונים</div>
+    <div style={{
+      display: "flex",
+      gap: 12,
+      overflowX: "auto",
+      paddingBottom: 8,
+      justifyContent: "flex-end"
+    }}>
+      {updates.map((u, idx) => (
+        <div
+          key={u.id || idx}
+          onClick={() => showUpdateAt(idx)}
+          style={{
+            minWidth: 120,
+            cursor: "pointer",
+            borderRadius: 14,
+            overflow: "hidden",
+            boxShadow: idx === currentIndex ? "0 8px 20px rgba(0,0,0,0.12)" : "0 6px 14px rgba(0,0,0,0.06)",
+            transform: idx === currentIndex ? "translateY(-6px)" : "translateY(0)",
+            transition: "all 220ms",
+            background: "#fff"
+          }}
+        >
+          <img src={u.imageUrl} alt="thumb" style={{ width: "100%", height: 80, objectFit: "cover" }} />
+          <div style={{ padding: 8 }}>
+            <div style={{ fontSize: 12, color: ACCENT_COLOR }}>{u.createdAt ? u.createdAt.toLocaleDateString() : "-"}</div>
+            <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
+              {[1,2,3,4,5].map(n => (
+                <div key={n} style={{
+                  width: 8, height: 8, borderRadius: 4,
+                  background: n <= (u.rating || 0) ? (n <= 2 ? "#ff6b6b" : n === 3 ? "#ffb74d" : "#66bb6a") : "#eee"
+                }} />
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
       {/* Bottom nav */}
       <nav style={{
@@ -292,7 +335,7 @@ export default function App() {
           const el = document.getElementById("about");
           if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
         }}>
-          <img src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/info.png?alt=media&token=6e3636de-be47-4219-9ec1-575c418e5caf" alt="אודות" style={{ width: 24, height: 24 }} />
+          <img src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/info.png?alt=media&token=6e3636de-be47-4219-9ec1-575c418e5caf" alt="אודות" style={{ width: 30, height: 30 }} />
           <div style={{ fontSize: 12, marginTop: 4 }}>אודות</div>
         </div>
 
@@ -301,8 +344,8 @@ export default function App() {
           <button
             onClick={() => setShowUploadModal(true)}
             style={{
-              width: 72,
-              height: 72,
+              width: 60,
+              height: 60,
               borderRadius: 36,
               background: "#fff",
               border: "none",
@@ -321,7 +364,7 @@ export default function App() {
         {/* השתתפו איתנו */}
         <div style={{ textAlign: "center", color: "#fff" }}>
           <a href={DONATE_URL} target="_blank" rel="noreferrer" style={{ color: "#fff", textDecoration: "none" }}>
-            <img src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/mercy.png?alt=media&token=012b5125-46ec-4936-bf49-e35c0b9d0e58" alt="השתתפו איתנו" style={{ width: 24, height: 24 }} />
+            <img src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/mercy.png?alt=media&token=012b5125-46ec-4936-bf49-e35c0b9d0e58" alt="השתתפו איתנו" style={{ width: 30, height: 30 }} />
             <div style={{ fontSize: 12, marginTop: 4 }}>השתתפו איתנו</div>
           </a>
         </div>
