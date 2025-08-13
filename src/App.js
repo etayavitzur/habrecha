@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useEffect, useState } from "react";
 import { storage, db } from "./firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -10,9 +9,10 @@ import {
   getDocs,
   serverTimestamp,
 } from "firebase/firestore";
+import "./App.css";
 
 const DONATE_URL = "https://www.bitpay.co.il/app/me/73EF2B16-D8BC-B7F6-E6B3-3A940D92593CFCF2";
-const ACCENT_COLOR = "#84856d"; // צבע שביקשת
+const ACCENT_COLOR = "#84856d"; // צבע הכותרת וגם עכשיו של התפריט
 
 function daysAgo(date) {
   if (!date) return "-";
@@ -30,21 +30,18 @@ function normalizeCreatedAt(createdAt) {
 }
 
 export default function App() {
-  const [updates, setUpdates] = useState([]); // מערך עדכונים מסודר (חדשות קודם)
-  const [currentIndex, setCurrentIndex] = useState(0); // איזה עדכון מוצג במרכז
+  const [updates, setUpdates] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // טופס העלאה
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [file, setFile] = useState(null);
   const [rating, setRating] = useState(5);
   const [comments, setComments] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  // popup הגבלה (אם צריך)
   const [showLimitPopup, setShowLimitPopup] = useState(false);
 
-  // --- Fetch updates from Firestore ---
   async function fetchUpdates() {
     setLoading(true);
     try {
@@ -78,7 +75,6 @@ export default function App() {
 
   const current = updates[currentIndex] || null;
 
-  // --- Upload handler (עם מגבלת 24 שעות לפי העדכון האחרון) ---
   async function handleUploadSubmit(e) {
     e.preventDefault();
     if (!file) {
@@ -86,7 +82,6 @@ export default function App() {
       return;
     }
 
-    // בדיקת מגבלה: אם קיים עדכון אחרון ופחות מ-24 שעות עברו - חוסם
     const last = updates[0];
     if (last && last.createdAt) {
       const hours = (Date.now() - last.createdAt.getTime()) / (1000 * 60 * 60);
@@ -98,13 +93,11 @@ export default function App() {
 
     setUploading(true);
     try {
-      // העלאת תמונה ל־Storage
       const filename = `images/${Date.now()}_${file.name}`;
       const imageRef = ref(storage, filename);
       await uploadBytes(imageRef, file);
       const url = await getDownloadURL(imageRef);
 
-      // שמירת מסמך ב־Firestore
       const ratingTextMap = ["מלוכלך מאוד", "מלוכלך", "סביר", "נקי", "נקי מאוד"];
       await addDoc(collection(db, "updates"), {
         imageUrl: url,
@@ -114,7 +107,6 @@ export default function App() {
         createdAt: serverTimestamp(),
       });
 
-      // איפוס טופס ורענון
       setFile(null);
       setRating(5);
       setComments("");
@@ -128,160 +120,59 @@ export default function App() {
     }
   }
 
-  // --- Gallery card click: קבע כרטיס מרכזי ---
   function showUpdateAt(index) {
     if (index >= 0 && index < updates.length) setCurrentIndex(index);
   }
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", background: "#fff", minHeight: "100vh", paddingBottom: 140 }}>
-      {/* Header */}
-      <header style={{
-        padding: 18,
-        textAlign: "center",
-        borderBottom: "1px solid #eee",
-        background: "#fff",
-        position: "sticky",
-        top: 0,
-        zIndex: 20
-      }}>
+    <div className="app-container" style={{ backgroundImage: "url('https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/background_mobile_new.webp?alt=media&token=ecc773a6-b1b6-433d-8157-6bb41f736e5a')", backgroundSize: "cover", backgroundPosition: "center" }}>
+      <header className="app-header">
         <div style={{ color: ACCENT_COLOR, fontWeight: 700, fontSize: 18, lineHeight: "1.15" }}>
           בריכה לזכר נופלי
           <div style={{ fontSize: 14, fontWeight: 600 }}>מלחמת חרבות ברזל</div>
         </div>
       </header>
 
-      <main style={{ maxWidth: 720, margin: "10px auto", padding: "0 14px" }}>
-        {/* Main card */}
+      <main className="app-main">
         {loading ? (
-          <div style={{
-            height: 260,
-            borderRadius: 20,
-            background: "#fafafa",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#999",
-            marginBottom: 12
-          }}>טוען...</div>
+          <div className="card-placeholder">טוען...</div>
         ) : !current ? (
-          <div style={{
-            height: 260,
-            borderRadius: 20,
-            background: "#fafafa",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#999",
-            marginBottom: 12
-          }}>אין עדכונים להצגה — הוסף עדכון ראשון</div>
+          <div className="card-placeholder">אין עדכונים להצגה — הוסף עדכון ראשון</div>
         ) : (
-          <section style={{
-            borderRadius: 20,
-            boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
-            overflow: "hidden",
-            background: "#fff",
-            marginBottom: 12
-          }}>
-            {/* date pill (top-left) */}
-            <div style={{ position: "relative" }}>
-              <div style={{
-                position: "absolute",
-                left: 12,
-                top: 12,
-                background: "rgba(255,255,255,0.9)",
-                color: ACCENT_COLOR,
-                padding: "6px 10px",
-                borderRadius: 20,
-                fontSize: 12,
-                boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-                zIndex: 2
-              }}>
-                {current.createdAt ? current.createdAt.toLocaleDateString() : "-"}
-              </div>
-
-              <img
-                src={current.imageUrl}
-                alt="עדכון"
-                style={{
-                  display: "block",
-                  width: "100%",
-                  height: 260,            // smaller image height as requested
-                  objectFit: "cover",
-                }}
-              />
+          <section className="update-card">
+            <div className="image-wrapper">
+              <div className="date-pill">{current.createdAt ? current.createdAt.toLocaleDateString() : "-"}</div>
+              <img className="update-image" src={current.imageUrl} alt="עדכון" />
             </div>
-
-            {/* info area */}
-            <div style={{ padding: 12 }}>
-              <div style={{ color: "#666", fontSize: 13, marginBottom: 8 }}>
-                עברו {current.createdAt ? daysAgo(current.createdAt) : "-"} ימים מאז העדכון
-              </div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                {/* rating dots */}
-                <div style={{ display: "flex", gap: 6 }}>
+            <div className="card-info">
+              <div className="days-ago">עברו {current.createdAt ? daysAgo(current.createdAt) : "-"} ימים מאז העדכון</div>
+              <div className="rating-row">
+                <div className="rating-dots">
                   {[1,2,3,4,5].map(n => (
-                    <div key={n} style={{
-                      width: 14, height: 14, borderRadius: 7,
-                      background: n <= (current.rating || 0) ? (n <= 2 ? "#ff6b6b" : n === 3 ? "#ffb74d" : "#66bb6a") : "#eee"
-                    }} />
+                    <div key={n} className={`dot ${n <= (current.rating || 0) ? (n <=2 ? "low" : n ===3 ? "mid":"high") : ""}`} />
                   ))}
                 </div>
-                <div style={{ color: "#333", fontSize: 14 }}>
+                <div className="rating-text">
                   דירוג ניקיון: {current.rating ?? "-"} {current.ratingText ? `• ${current.ratingText}` : ""}
                 </div>
               </div>
-
-              <div style={{
-                background: "#fff",
-                borderRadius: 14,
-                padding: "10px",
-                boxShadow: "0 4px 10px rgba(0,0,0,0.03)",
-                color: "#444",
-                fontSize: 14,
-                minHeight: 44
-              }}>
-                {current.comments || "אין הערות"}
-              </div>
+              <div className="comments-box">{current.comments || "אין הערות"}</div>
             </div>
           </section>
         )}
 
-        {/* Horizontal history gallery */}
         {updates.length > 1 && (
-          <div style={{ marginTop: 8 }}>
-            <div style={{ fontSize: 13, color: "#666", marginBottom: 8 }}>היסטוריית עדכונים</div>
-            <div style={{
-              display: "flex",
-              gap: 12,
-              overflowX: "auto",
-              paddingBottom: 8
-            }}>
+          <div className="history-gallery">
+            <div className="gallery-label">היסטוריית עדכונים</div>
+            <div className="gallery-wrapper">
               {updates.map((u, idx) => (
-                <div
-                  key={u.id || idx}
-                  onClick={() => showUpdateAt(idx)}
-                  style={{
-                    minWidth: 120,
-                    cursor: "pointer",
-                    borderRadius: 14,
-                    overflow: "hidden",
-                    boxShadow: idx === currentIndex ? "0 8px 20px rgba(0,0,0,0.12)" : "0 6px 14px rgba(0,0,0,0.06)",
-                    transform: idx === currentIndex ? "translateY(-6px)" : "translateY(0)",
-                    transition: "all 220ms",
-                    background: "#fff"
-                  }}
-                >
-                  <img src={u.imageUrl} alt="thumb" style={{ width: "100%", height: 80, objectFit: "cover" }} />
-                  <div style={{ padding: 8 }}>
-                    <div style={{ fontSize: 12, color: ACCENT_COLOR }}>{u.createdAt ? u.createdAt.toLocaleDateString() : "-"}</div>
-                    <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
+                <div key={u.id || idx} className={`gallery-thumb ${idx===currentIndex?"active":""}`} onClick={()=>showUpdateAt(idx)}>
+                  <img src={u.imageUrl} alt="thumb"/>
+                  <div className="thumb-info">
+                    <div className="thumb-date">{u.createdAt ? u.createdAt.toLocaleDateString() : "-"}</div>
+                    <div className="thumb-dots">
                       {[1,2,3,4,5].map(n => (
-                        <div key={n} style={{
-                          width: 8, height: 8, borderRadius: 4,
-                          background: n <= (u.rating || 0) ? (n <= 2 ? "#ff6b6b" : n === 3 ? "#ffb74d" : "#66bb6a") : "#eee"
-                        }} />
+                        <div key={n} className={`dot ${n <= (u.rating || 0) ? (n<=2?"low":n===3?"mid":"high"):""}`}/>
                       ))}
                     </div>
                   </div>
@@ -291,152 +182,69 @@ export default function App() {
           </div>
         )}
 
-        {/* About section (anchor target) */}
-        <section id="about" style={{ marginTop: 18, paddingBottom: 40 }}>
+        <section id="about" className="about-section">
           <h3 style={{ color: ACCENT_COLOR, marginBottom: 8 }}>אודות הבריכה</h3>
-          <p style={{ color: "#444", lineHeight: 1.5 }}>
+          <p>
             המקום נבנה על ידי נוער סנסנה. הושקעו כספים ומאמץ רב כדי לבנות ולתחזק את הבריכה.
             נשמח אם תוכלו לקחת חלק בעשייה שלנו.
           </p>
         </section>
       </main>
 
-      {/* Bottom floating nav (rounded ends) */}
-      <nav style={{
-        position: "fixed",
-        bottom: 12,
-        left: "5%",
-        width: "90%",
-        maxWidth: 720,
-        background: ACCENT_COLOR,
-        borderRadius: 999,
-        padding: "8px 16px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-        zIndex: 40
-      }}>
-        {/* About (left) */}
-        <div style={{ textAlign: "center", color: "#fff", cursor: "pointer" }} onClick={() => {
-          // scroll to about
-          const el = document.getElementById("about");
-          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      <nav className="bottom-nav" style={{ background: ACCENT_COLOR }}>
+        <div className="nav-item" onClick={()=>{
+          const el=document.getElementById("about"); if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
         }}>
           <div style={{ fontSize: 18 }}>ℹ️</div>
-          <div style={{ fontSize: 11, marginTop: 4 }}>אודות</div>
+          <div style={{ fontSize: 11, marginTop:4 }}>אודות</div>
         </div>
 
-        {/* Center add button */}
-        <div style={{ textAlign: "center", transform: "translateY(-14px)" }}>
-          <button
-            onClick={() => setShowUploadModal(true)}
-            style={{
-              width: 72,
-              height: 72,
-              borderRadius: 36,
-              background: "#fff",
-              border: "none",
-              color: ACCENT_COLOR,
-              fontSize: 34,
-              fontWeight: 700,
-              cursor: "pointer",
-              boxShadow: "0 10px 26px rgba(0,0,0,0.18)"
-            }}
-          >
-            ＋
-          </button>
-          <div style={{ fontSize: 12, color: "#fff", marginTop: 8 }}>הוסף עדכון</div>
+        <div className="nav-item-center">
+          <button className="add-button" onClick={()=>setShowUploadModal(true)}>＋</button>
+          <div className="add-label">הוסף עדכון</div>
         </div>
 
-        {/* Donate (right) */}
-        <div style={{ textAlign: "center", color: "#fff" }}>
-          <a href={DONATE_URL} target="_blank" rel="noreferrer" style={{ color: "#fff", textDecoration: "none" }}>
+        <div className="nav-item">
+          <a href={DONATE_URL} target="_blank" rel="noreferrer" style={{ color:"#fff", textDecoration:"none" }}>
             <div style={{ fontSize: 18 }}>🎁</div>
-            <div style={{ fontSize: 11, marginTop: 4 }}>תרומה</div>
+            <div style={{ fontSize: 11, marginTop:4 }}>תרומה</div>
           </a>
         </div>
       </nav>
 
-      {/* Upload Modal (separate from floating center button) */}
       {showUploadModal && (
-        <div style={{
-          position: "fixed", inset: 0,
-          background: "rgba(0,0,0,0.45)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          zIndex: 80, padding: 16
-        }}>
-          <div style={{
-            width: "100%", maxWidth: 420,
-            background: "#fff", borderRadius: 16, padding: 18,
-            boxShadow: "0 10px 30px rgba(0,0,0,0.25)"
-          }}>
-            <h2 style={{ marginTop: 0, color: ACCENT_COLOR }}>הוסף עדכון</h2>
-
+        <div className="upload-modal">
+          <div className="upload-box">
+            <h2 style={{ marginTop:0, color:ACCENT_COLOR }}>הוסף עדכון</h2>
             <form onSubmit={handleUploadSubmit}>
-              <label style={{
-                display: "block",
-                borderRadius: 12,
-                border: "2px dashed #e6e6e6",
-                padding: 18,
-                textAlign: "center",
-                cursor: "pointer",
-                marginBottom: 14
-              }}>
+              <label className="file-label">
                 📷 בחר תמונה
-                <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} required style={{ display: "none" }} />
+                <input type="file" accept="image/*" onChange={(e)=>setFile(e.target.files[0])} required/>
               </label>
-
-              <div style={{ marginBottom: 12 }}>
-                <div style={{ marginBottom: 8, color: "#444" }}>דרוג ניקיון</div>
-                <div style={{ display: "flex", gap: 8 }}>
-                  {[1,2,3,4,5].map(n => (
-                    <button key={n} type="button" onClick={() => setRating(n)} style={{
-                      flex: "0 0 40px",
-                      height: 40,
-                      borderRadius: 20,
-                      border: "1px solid #e0e0e0",
-                      background: n <= rating ? ACCENT_COLOR : "#f3f3f3",
-                      color: n <= rating ? "#fff" : "#666",
-                      cursor: "pointer"
-                    }}>{n}</button>
+              <div className="rating-select">
+                <div style={{ marginBottom:8, color:"#444" }}>דרוג ניקיון</div>
+                <div className="rating-buttons">
+                  {[1,2,3,4,5].map(n=>(
+                    <button key={n} type="button" className={n<=rating?"selected":""} onClick={()=>setRating(n)}>{n}</button>
                   ))}
                 </div>
               </div>
-
-              <div style={{ marginBottom: 12 }}>
-                <textarea value={comments} onChange={(e) => setComments(e.target.value)} rows={3}
-                          placeholder="הערות (לא חובה)"
-                          style={{ width: "100%", padding: 10, borderRadius: 10, border: "1px solid #e6e6e6" }} />
-              </div>
-
-              <div style={{ display: "flex", gap: 8 }}>
-                <button type="submit" disabled={uploading} style={{
-                  flex: 1, padding: 12, borderRadius: 12, border: "none",
-                  background: ACCENT_COLOR, color: "#fff", fontWeight: 700
-                }}>{uploading ? "מעלה..." : "שלח"}</button>
-
-                <button type="button" onClick={() => setShowUploadModal(false)} style={{
-                  flex: 1, padding: 12, borderRadius: 12, border: "1px solid #ddd", background: "#fff"
-                }}>ביטול</button>
+              <textarea rows={3} value={comments} onChange={e=>setComments(e.target.value)} placeholder="הערות (לא חובה)"/>
+              <div className="upload-actions">
+                <button type="submit" disabled={uploading}>{uploading?"מעלה...":"שלח"}</button>
+                <button type="button" onClick={()=>setShowUploadModal(false)}>ביטול</button>
               </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* Limit popup */}
       {showLimitPopup && (
-        <div style={{
-          position: "fixed", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
-          background: "rgba(0,0,0,0.4)", zIndex: 200
-        }}>
-          <div style={{ background: "#fff", padding: 18, borderRadius: 12, width: "90%", maxWidth: 320, textAlign: "center" }}>
-            <div style={{ fontSize: 20, marginBottom: 8 }}>⚠️</div>
-            <div style={{ marginBottom: 12 }}>אפשר להעלות רק פעם ביום</div>
-            <button onClick={() => setShowLimitPopup(false)} style={{
-              padding: "10px 18px", borderRadius: 10, border: "none", background: ACCENT_COLOR, color: "#fff"
-            }}>הבנתי</button>
+        <div className="limit-popup">
+          <div>
+            <div style={{ fontSize:20, marginBottom:8 }}>⚠️</div>
+            <div style={{ marginBottom:12 }}>אפשר להעלות רק פעם ביום</div>
+            <button onClick={()=>setShowLimitPopup(false)}>הבנתי</button>
           </div>
         </div>
       )}
