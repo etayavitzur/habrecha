@@ -9,6 +9,7 @@ import {
   getDocs,
   serverTimestamp,
 } from "firebase/firestore";
+import './App.css'; // כאן מחברים את קובץ ה-CSS
 
 const DONATE_URL = "https://www.bitpay.co.il/app/me/73EF2B16-D8BC-B7F6-E6B3-3A940D92593CFCF";
 const ACCENT_COLOR = "#84856d"; // צבע הכותרת
@@ -47,6 +48,8 @@ export default function App() {
   const [uploading, setUploading] = useState(false);
 
   const [showLimitPopup, setShowLimitPopup] = useState(false);
+const [lightboxOpen, setLightboxOpen] = useState(false);
+const [lightboxIndex, setLightboxIndex] = useState(0);
 
   async function fetchUpdates() {
     setLoading(true);
@@ -89,13 +92,14 @@ export default function App() {
     }
 
     const last = updates[0];
-    if (last && last.createdAt) {
-      const hours = (Date.now() - last.createdAt.getTime()) / (1000 * 60 * 60);
-      if (hours < 24) {
-        setShowLimitPopup(true);
-        return;
-      }
-    }
+if (last && last.createdAt) {
+  const minutes = (Date.now() - last.createdAt.getTime()) / (1000 * 60); // ממיר לדקות
+  if (minutes < 10) {
+    setShowLimitPopup(true);
+    return;
+  }
+}
+
 
     setUploading(true);
     try {
@@ -153,9 +157,67 @@ export default function App() {
           fontFamily: "'Cardo', serif",
         }}
       >
-        <div style={{ color: ACCENT_COLOR, fontWeight: 700, fontSize: 20, lineHeight: "1.2" }}>
-          עדכון מצב המעיין בסנסנה
-        </div>
+        <div style={{
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  position: "relative",
+  marginBottom: 12
+}}>
+  <div style={{
+    position: "absolute",
+    right: 0,
+	top: -8,
+    fontSize: 12,
+    fontFamily: "'Cardo', serif",
+    fontWeight: 700
+  }}>
+    בס"ד
+  </div>
+  <div style={{
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  position: "relative",
+  marginBottom: 12
+}}>
+  {/* הכותרת הראשית */}
+  <div style={{
+    fontSize: 18,
+    fontWeight: 700,
+    fontFamily: "'Cardo', serif",
+    textAlign: "center"
+  }}>
+    עדכון מצב המעיין בסנסנה
+  </div>
+
+  {/* התאריך הנוכחי */}
+  <div
+  style={{
+    position: "absolute",
+    top: "167%",
+    left: "50%",
+    transform: "translate(-50%, -50%)", // ממרכז את האלמנט
+    background: "rgba(255,255,255,0.9)",
+    color: ACCENT_COLOR,
+    padding: "6px 10px",
+    borderRadius: 20,
+    fontSize: 12,
+    fontFamily: "Varela Round, sans-serif", // אותו פונט
+    boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+    zIndex: 2,
+    textAlign: "center",
+  }}
+>
+  {new Date().toLocaleDateString("he-IL").replace(/\//g, "-")}
+</div>
+
+
+</div>
+
+
+</div>
+
       </header>
 
       <main style={{ maxWidth: 720, margin: "10px auto", padding: "0 14px" }}>
@@ -219,60 +281,65 @@ export default function App() {
               </div>
 
               <img
-                src={current.imageUrl}
-                alt="עדכון"
-                style={{
-                  display: "block",
-                  width: "100%",
-                  height: 260,
-                  objectFit: "cover",
-                }}
-              />
+  src={current.imageUrl}
+  alt="עדכון"
+  style={{
+    display: "block",
+    width: "100%",
+    height: 260,
+    objectFit: "cover",
+    cursor: "pointer"   // מוסיף יד לעכבר
+  }}
+  onClick={() => {
+    setLightboxIndex(currentIndex);
+    setLightboxOpen(true);
+  }}
+/>
+
             </div>
 
             <div style={{ padding: 12, textAlign: "right" }}>
               <div style={{ color: "#000", fontSize: 16, fontWeight: 700, marginBottom: 8 }}>
                 {current.createdAt
                   ? (Date.now() - current.createdAt.getTime()) < 1000 * 60 * 60 * 24
-                    ? `עברו ${hoursAgo(current.createdAt)} שעות מאז העדכון`
-                    : `עברו ${daysAgo(current.createdAt)} ימים מאז העדכון`
+                    ? `עברו ${hoursAgo(current.createdAt)} השעות מאז העדכון האחרון`
+                    : `עברו ${daysAgo(current.createdAt)} הימים מאז העדכון האחרון`
                   : "-"}
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  marginBottom: 10,
-                  justifyContent: "flex-end",
-                }}
-              >
-                <div style={{ display: "flex", gap: 6 }}>
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <div
-                      key={n}
-                      style={{
-                        width: 14,
-                        height: 14,
-                        borderRadius: 7,
-                        background:
-                          n <= (current.rating || 0)
-                            ? n <= 2
-                              ? "#ff6b6b"
-                              : n === 3
-                              ? "#ffb74d"
-                              : "#66bb6a"
-                            : "#eee",
-                      }}
-                    />
-                  ))}
-                </div>
-                <div style={{ color: "#333", fontSize: 14, textAlign: "right" }}>
-                  דירוג ניקיון: {current.rating ?? "-"}{" "}
-                  {current.ratingText ? `• ${current.ratingText}` : ""}
-                </div>
-              </div>
+              {/* דירוג ניקיון ושורות נקודות בצד שמאל */}
+<div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-start" }}>
+  <div style={{ color: "#333", fontSize: 14 }}>
+    דירוג ניקיון: {current.rating ?? "-"} {current.ratingText ? `• ${current.ratingText}` : ""}
+  </div>
+
+  {/* נקודות צבעוניות */}
+  <div style={{ display: "flex", gap: 6 }}>
+    {[1, 2, 3, 4, 5].map((n) => (
+      <div
+        key={n}
+        style={{
+          width: 14,
+          height: 14,
+          borderRadius: 7,
+          background:
+            n <= (current.rating || 0)
+              ? n <= 2
+                ? "#ff6b6b"
+                : n === 3
+                ? "#ffb74d"
+                : "#66bb6a"
+              : "#eee",
+        }}
+      />
+    ))}
+  </div>
+</div>
+
+
+
+
+
 
               <div
                 style={{
@@ -297,7 +364,7 @@ export default function App() {
           <div style={{ marginTop: 8 }}>
             <div
               style={{
-                fontSize: 13,
+                fontSize: 18,
                 color: "#666",
                 marginBottom: 8,
                 textAlign: "right",
@@ -372,18 +439,36 @@ export default function App() {
         )}
 
         {/* About section below history */}
-        <section
-          id="about"
-          style={{ marginTop: 18, paddingBottom: 40, textAlign: "right", fontFamily: "'Cardo', serif" }}
-        >
-          <h3 style={{ color: ACCENT_COLOR, marginBottom: 8, fontWeight: 700, fontSize: "18px" }}>
-            מעיין לזכר נופלי מלחמת חרבות ברזל
-          </h3>
-          <p style={{ color: "#444", lineHeight: 1.5 }}>
-            המקום נבנה על ידי נוער סנסנה. הושקעו כספים ומאמץ רב כדי לבנות ולתחזק את הבריכה.
-            נשמח אם תוכלו לקחת חלק בעשייה שלנו.
-          </p>
-        </section>
+        <h3
+  style={{
+    color: ACCENT_COLOR,
+    marginTop: 10, // <-- מוסיף רווח מעל הכיתוב
+    marginBottom: 8,
+    fontWeight: 700,
+    fontSize: "18px",
+    background: "#fff",
+    display: "inline-block",
+    padding: "4px 8px",
+    borderRadius: 8,
+    boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+  }}
+>
+  מעיין לזכר נופלי מלחמת חרבות ברזל
+</h3>
+<div
+  style={{
+    color: ACCENT_COLOR,
+    fontSize: 17,
+    textAlign: "right", // יישור לימין
+    fontFamily: "inherit", // פונט ברירת מחדל
+    marginBottom: 12, // רווח מתחת לטקסט
+	paddingRight: 12,
+  }}
+>
+  המקום נבנה על ידי נוער סנסנה. הושקעו כספים ומאמץ רב כדי לבנות ולתחזק את הבריכה. נשמח אם תוכלו לקחת חלק בעשייה שלנו.
+</div>
+
+
       </main>
 
       {/* Bottom nav */}
@@ -617,6 +702,74 @@ export default function App() {
           </div>
         </div>
       )}
+	  {lightboxOpen && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      background: "rgba(0,0,0,0.85)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 999,
+      flexDirection: "column",
+    }}
+    onClick={() => setLightboxOpen(false)}
+  >
+    <img
+      src={updates[lightboxIndex]?.imageUrl}
+      alt="עדכון"
+      style={{ maxWidth: "95%", maxHeight: "80%", marginBottom: 12 }}
+    />
+    <div style={{ display: "flex", gap: 12 }}>
+  {/* כפתור הקודם */}
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      if (lightboxIndex > 0) {
+        setLightboxIndex((prev) => prev - 1);
+      }
+    }}
+    style={{
+      padding: "8px 14px",
+      borderRadius: 8,
+      border: "none",
+      background: "#fff",
+      cursor: lightboxIndex > 0 ? "pointer" : "not-allowed",
+      opacity: lightboxIndex > 0 ? 1 : 0.5,
+    }}
+  >
+    → הבא 
+  </button>
+
+  {/* כפתור הבא */}
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      if (lightboxIndex < updates.length - 1) {
+        setLightboxIndex((prev) => prev + 1);
+      }
+    }}
+    disabled={lightboxIndex >= updates.length - 1}
+    style={{
+      padding: "8px 14px",
+      borderRadius: 8,
+      border: "none",
+      background: "#fff",
+      cursor: lightboxIndex < updates.length - 1 ? "pointer" : "not-allowed",
+      opacity: lightboxIndex < updates.length - 1 ? 1 : 0.5,
+    }}
+  >
+     קודם ←
+  </button>
+</div>
+
+  </div>
+)}
+
     </div>
   );
 }
