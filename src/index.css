@@ -23,7 +23,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Cardo', serif;
   color: #84856d; /* צבע הכותרות */
   margin-bottom: 12px;
-  text-align: center; /* כותרות במרכז */
+  text-align: right; /* כותרות במרכז */
 }
 
 /* קישורים */

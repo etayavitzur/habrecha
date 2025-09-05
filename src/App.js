@@ -40,6 +40,7 @@ export default function App() {
   const [updates, setUpdates] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+const [menuOpen, setMenuOpen] = useState(false);
 
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [file, setFile] = useState(null);
@@ -144,6 +145,50 @@ if (last && last.createdAt) {
         textAlign: "center",
       }}
     >
+	
+	
+	
+{/* חלון "האתר בשיפוצים" משודרג *}
+<div
+  style={{
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 9999,
+  }}
+>
+  <div
+  style={{
+    color: "#000",
+    fontSize: 48,
+    fontWeight: 900,
+    textAlign: "center",
+    padding: 40,
+    borderRadius: 20,
+    background: "#fff", // לבן מלא
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 20,
+  }}
+>
+
+    <div style={{ fontSize: 64 }}>🔧</div>
+    <div>האתר בשיפוצים</div>
+    <div style={{ fontSize: 24, fontWeight: 500 }}>חוזרים בקרוב!</div>
+  </div>
+</div>
+/*
+
+	
+	
+	
       {/* Header */}
       <header
         style={{
@@ -157,66 +202,116 @@ if (last && last.createdAt) {
           fontFamily: "'Cardo', serif",
         }}
       >
-        <div style={{
+      <div style={{
   display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+  flexDirection: "column",
+  alignItems: "flex-start", // מיישר את כל התוכן לשמאל
   position: "relative",
   marginBottom: 12
 }}>
+
+  {/* כפתור התפריט */}
   <div style={{
     position: "absolute",
-    right: 0,
-	top: -8,
+    left: 12,
+    top: 12,
+    cursor: "pointer",
+    zIndex: 30
+  }}
+  onClick={() => setMenuOpen(prev => !prev)}>
+    <img
+      src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/menu.png?alt=media&token=baefc9fa-08e9-48fb-84f6-530e1307ff68"
+      alt="Menu"
+      style={{ width: 28, height: 28 }}
+    />
+  </div>
+
+  {/* תפריט קופץ */}
+  {menuOpen && (
+    <div
+      style={{
+      position: "absolute",
+      top: 60,  // קצת מתחת לכפתור
+      left: 12,
+      background: "#fff",
+      borderRadius: 12,
+      boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
+      padding: 20,
+      width: 220,  // יותר רחב
+      minHeight: 200, // יותר גבוה
+      fontSize: 18,   // טקסט גדול יותר
+      display: "flex",
+      flexDirection: "column",
+      gap: 30,
+      zIndex: 50,
+      }}
+    >
+      <button
+        onClick={() => { setShowUploadModal(true); setMenuOpen(false); }}
+        style={{
+          padding: "8px 16px",
+          textAlign: "left",
+          border: "none",
+          background: "none",
+          cursor: "pointer",
+          fontSize: 14,
+        }}
+      >
+        הוסף עדכון
+      </button>
+
+      <button
+        onClick={() => { window.open("https://www.bitpay.co.il/app/me/73EF2B16-D8BC-B7F6-E6B3-3A940D92593CFCF2", "_blank"); setMenuOpen(false); }}
+        style={{
+          padding: "8px 16px",
+          textAlign: "left",
+          border: "none",
+          background: "none",
+          cursor: "pointer",
+          fontSize: 14,
+        }}
+      >
+        השתתפו איתנו
+      </button>
+
+      <button
+        onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setMenuOpen(false); }}
+        style={{
+          padding: "8px 16px",
+          textAlign: "left",
+          border: "none",
+          background: "none",
+          cursor: "pointer",
+          fontSize: 14,
+        }}
+      >
+        אודות
+      </button>
+    </div>
+  )}
+
+  {/* בס"ד */}
+  <div style={{
     fontSize: 12,
     fontFamily: "'Cardo', serif",
-    fontWeight: 700
+    fontWeight: 700,
+    marginBottom: 4
   }}>
     בס"ד
   </div>
-  <div style={{
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  position: "relative",
-  marginBottom: 12
-}}>
+
   {/* הכותרת הראשית */}
   <div style={{
     fontSize: 18,
     fontWeight: 700,
-    fontFamily: "'Cardo', serif",
-    textAlign: "center"
+    fontFamily: "inherit",
+    textAlign: "left" // טקסט מיישר לשמאל
   }}>
     עדכון מצב המעיין בסנסנה
   </div>
 
-  {/* התאריך הנוכחי */}
-  <div
-  style={{
-    position: "absolute",
-    top: "167%",
-    left: "50%",
-    transform: "translate(-50%, -50%)", // ממרכז את האלמנט
-    background: "rgba(255,255,255,0.9)",
-    color: ACCENT_COLOR,
-    padding: "6px 10px",
-    borderRadius: 20,
-    fontSize: 12,
-    fontFamily: "Varela Round, sans-serif", // אותו פונט
-    boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-    zIndex: 2,
-    textAlign: "center",
-  }}
->
-  {new Date().toLocaleDateString("he-IL").replace(/\//g, "-")}
 </div>
 
-
-</div>
-
-
-</div>
 
       </header>
 
@@ -453,12 +548,13 @@ if (last && last.createdAt) {
     boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
   }}
 >
-  מעיין לזכר נופלי מלחמת חרבות ברזל
+	 מעיין לזכר נופלי <br />
+   מלחמת חרבות ברזל
 </h3>
 <div
   style={{
     color: ACCENT_COLOR,
-    fontSize: 17,
+    fontSize: 20,
     textAlign: "right", // יישור לימין
     fontFamily: "inherit", // פונט ברירת מחדל
     marginBottom: 12, // רווח מתחת לטקסט
@@ -471,66 +567,9 @@ if (last && last.createdAt) {
 
       </main>
 
-      {/* Bottom nav */}
-      <nav
-        style={{
-          position: "fixed",
-          bottom: 10,
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "100%",
-          maxWidth: 600,
-          background: ACCENT_COLOR,
-          borderRadius: 999,
-          padding: "2px 4px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "70px",
-          boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-          zIndex: 40,
-        }}
-      >
-        {/* אודות */}
-        <div
-          style={{ textAlign: "center", color: "#fff", cursor: "pointer" }}
-          onClick={() => {
-            const el = document.getElementById("about");
-            if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-          }}
-        >
-          <img
-            src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/info%20(2).png?alt=media&token=0526caa6-3014-45d6-81d1-c00c6c6fdfc4"
-            alt="אודות"
-            style={{ width: 30, height: 30 }}
-          />
-          <div style={{ fontSize: 12, marginTop: 4 }}>אודות</div>
-        </div>
-
-        {/* הוסף עדכון */}
-        <div style={{ textAlign: "center", transform: "translateY(-14px)" }}>
-          <button
-            onClick={() => setShowUploadModal(true)}
-            style={{
-              width: 60,
-              height: 60,
-              borderRadius: 36,
-              background: "#fff",
-              border: "none",
-              color: ACCENT_COLOR,
-              fontSize: 34,
-              fontWeight: 700,
-              cursor: "pointer",
-              boxShadow: "0 10px 26px rgba(0,0,0,0.18)",
-            }}
-          >
-            ＋
-          </button>
-          <div style={{ fontSize: 12, color: "#fff", marginTop: 4 }}>הוסף עדכון</div>
-        </div>
-
         {/* השתתפו איתנו */}
-        <div style={{ textAlign: "center", color: "#fff" }}>
+		{/* 
+		<div style={{ textAlign: "center", color: "#fff" }}>
           <a href={DONATE_URL} target="_blank" rel="noreferrer" style={{ color: "#fff", textDecoration: "none" }}>
             <img
               src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/mercy%20(2).png?alt=media&token=374923e4-edd3-4ca3-931a-6e7b4897e5a7"
@@ -540,7 +579,30 @@ if (last && last.createdAt) {
             <div style={{ fontSize: 12, marginTop: 4 }}>השתתפו איתנו</div>
           </a>
         </div>
-      </nav>
+		*/}
+<button
+  onClick={() => setShowUploadModal(true)}
+  style={{
+    position: "fixed",
+    bottom: 20,
+    left: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    background: ACCENT_COLOR,
+    color: "#fff",
+    fontSize: 34,
+    fontWeight: 700,
+    border: "none",
+    cursor: "pointer",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.2)",
+    zIndex: 50,
+  }}
+>
+  ＋
+</button>
+
+
 
       {/* Upload Modal */}
       {showUploadModal && (
@@ -571,26 +633,43 @@ if (last && last.createdAt) {
             <h2 style={{ marginTop: 0, color: ACCENT_COLOR, fontFamily: "'Cardo', serif" }}>הוסף עדכון</h2>
 
             <form onSubmit={handleUploadSubmit}>
-              <label
-                style={{
-                  display: "block",
-                  borderRadius: 12,
-                  border: "2px dashed #e6e6e6",
-                  padding: 18,
-                  textAlign: "center",
-                  cursor: "pointer",
-                  marginBottom: 14,
-                }}
-              >
-                📷 בחר תמונה
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  required
-                  style={{ display: "none" }}
-                />
-              </label>
+              {!file ? (
+  <label
+    style={{
+      display: "block",
+      borderRadius: 12,
+      border: "2px dashed #e6e6e6",
+      padding: 18,
+      textAlign: "center",
+      cursor: "pointer",
+      marginBottom: 14,
+    }}
+  >
+    📷 בחר תמונה
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => setFile(e.target.files[0])}
+      required
+      style={{ display: "none" }}
+    />
+  </label>
+) : (
+  <div
+    style={{
+      padding: 18,
+      borderRadius: 12,
+      background: "#e6ffe6",
+      textAlign: "center",
+      marginBottom: 14,
+      color: "#2d6a2d",
+      fontWeight: 700,
+    }}
+  >
+    ✅ התמונה נבחרה בהצלחה
+  </div>
+)}
+
 
               <div style={{ marginBottom: 12 }}>
                 <div style={{ marginBottom: 8, color: "#444" }}>דרוג ניקיון</div>
