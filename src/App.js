@@ -192,7 +192,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
       {/* Header */}
       <header
         style={{
-          padding: 18,
+          padding: 3,
           textAlign: "center",
           borderBottom: "1px solid #eee",
           background: "#fff",
@@ -231,18 +231,18 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
     <div
       style={{
       position: "absolute",
-      top: 60,  // קצת מתחת לכפתור
-      left: 12,
+      top: 63,  // קצת מתחת לכפתור
+      left: 0,
       background: "#fff",
       borderRadius: 12,
       boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
       padding: 20,
-      width: 600,  // יותר רחב
+      width: 660,  // יותר רחב
       minHeight: 100, // יותר גבוה
       fontSize: 18,   // טקסט גדול יותר
       display: "flex",
       flexDirection: "column",
-      gap: 9,
+      gap: 10,
       zIndex: 50,
       }}
     >
@@ -303,25 +303,31 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
     </div>
   )}
 
-  {/* בס"ד */}
   <div style={{
-    fontSize: 12,
-    fontFamily: "'Cardo', serif",
-    fontWeight: 700,
-    marginBottom: 4
-  }}>
-    בס"ד
-  </div>
+  fontSize: 12,
+  fontFamily: "'Cardo', serif",
+  fontWeight: 700,
+  marginBottom: 2,
+  marginRight: 8, // מרחק מהצד
+  marginTop: 4    // מרחק מהחלק העליון
+}}>
+  בס"ד
+</div>
+
+
 
   {/* הכותרת הראשית */}
   <div style={{
-    fontSize: 18,
-    fontWeight: 700,
-    fontFamily: "inherit",
-    textAlign: "left" // טקסט מיישר לשמאל
-  }}>
-    עדכון מצב המעיין בסנסנה
-  </div>
+  fontSize: 18,
+  fontWeight: 700,
+  fontFamily: "inherit",
+  textAlign: "left",
+  marginRight: 8  // המרחק מהצד
+  
+}}>
+  עדכון מצב המעיין בסנסנה
+</div>
+
 
 </div>
 
