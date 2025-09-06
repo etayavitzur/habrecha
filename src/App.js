@@ -222,7 +222,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
     <img
       src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/menu.png?alt=media&token=baefc9fa-08e9-48fb-84f6-530e1307ff68"
       alt="Menu"
-      style={{ width: 28, height: 28 }}
+      style={{ width: 24, height: 24 }}
     />
   </div>
 
@@ -237,56 +237,69 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
       borderRadius: 12,
       boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
       padding: 20,
-      width: 220,  // יותר רחב
-      minHeight: 200, // יותר גבוה
+      width: 600,  // יותר רחב
+      minHeight: 100, // יותר גבוה
       fontSize: 18,   // טקסט גדול יותר
       display: "flex",
       flexDirection: "column",
-      gap: 30,
+      gap: 9,
       zIndex: 50,
       }}
     >
       <button
-        onClick={() => { setShowUploadModal(true); setMenuOpen(false); }}
-        style={{
-          padding: "8px 16px",
-          textAlign: "left",
-          border: "none",
-          background: "none",
-          cursor: "pointer",
-          fontSize: 14,
-        }}
-      >
-        הוסף עדכון
-      </button>
+  onClick={() => { setShowUploadModal(true); setMenuOpen(false); }}
+  style={{
+    padding: "8px 16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    border: "none",
+    background: "none",
+    cursor: "pointer",
+    fontSize: 14,
+    direction: "rtl", // חשוב לעברית
+  }}
+>
+  <span>הוסף עדכון</span>  {/* הטקסט בצד ימין */}
+  <span>{'>'}</span>         {/* החץ בצד שמאל */}
+</button>
 
-      <button
-        onClick={() => { window.open("https://www.bitpay.co.il/app/me/73EF2B16-D8BC-B7F6-E6B3-3A940D92593CFCF2", "_blank"); setMenuOpen(false); }}
-        style={{
-          padding: "8px 16px",
-          textAlign: "left",
-          border: "none",
-          background: "none",
-          cursor: "pointer",
-          fontSize: 14,
-        }}
-      >
-        השתתפו איתנו
-      </button>
+<button
+  onClick={() => { window.open("https://www.bitpay.co.il/app/me/73EF2B16-D8BC-B7F6-E6B3-3A940D92593CFCF2", "_blank"); setMenuOpen(false); }}
+  style={{
+    padding: "8px 16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    border: "none",
+    background: "none",
+    cursor: "pointer",
+    fontSize: 14,
+    direction: "rtl",
+  }}
+>
+  <span>השתתפו איתנו</span>
+  <span>{'>'}</span>
+</button>
 
-      <button
-        onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setMenuOpen(false); }}
-        style={{
-          padding: "8px 16px",
-          textAlign: "left",
-          border: "none",
-          background: "none",
-          cursor: "pointer",
-          fontSize: 14,
-        }}
-      >
-        אודות
-      </button>
+<button
+  onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setMenuOpen(false); }}
+  style={{
+    padding: "8px 16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    border: "none",
+    background: "none",
+    cursor: "pointer",
+    fontSize: 14,
+    direction: "rtl",
+  }}
+>
+  <span>אודות</span>
+  <span>{'>'}</span>
+</button>
+
     </div>
   )}
 
