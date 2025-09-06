@@ -306,7 +306,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
 
   <div style={{
   fontSize: 12,
-  fontFamily: "'Cardo', serif",
+ // fontFamily: "'Cardo', serif",
   fontWeight: 700,
   marginBottom: 2,
   marginRight: 20,  // מרחק מהצד
@@ -321,10 +321,10 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
 
   {/* הכותרת הראשית */}
   <div style={{
-  fontSize: 18,
-  fontWeight: 700,
-  fontFamily: "'Cardo', serif",
-  textAlign: "left",
+  fontSize: 20,
+  fontWeight: 500,
+ // fontFamily: "'Noto Sans Hebrew', sans-serif",
+  textAlign: "center",
   marginRight: 20,  // מרחק מהצד
   marginTop: 0
  
@@ -487,7 +487,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
                 color: "#666",
                 marginBottom: 8,
                 textAlign: "right",
-                fontFamily: "'Cardo', serif",
+                //fontFamily: "'Cardo', serif",
                 fontWeight: 700,
                 paddingRight: 12,
               }}
@@ -563,7 +563,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
     color: ACCENT_COLOR,
     marginTop: 10, // <-- מוסיף רווח מעל הכיתוב
     marginBottom: 8,
-    fontWeight: 700,
+    fontWeight: 600,
     fontSize: "18px",
     background: "#fff",
     display: "inline-block",

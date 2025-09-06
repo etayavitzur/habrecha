@@ -11,7 +11,7 @@ body {
 
 /* כותרות */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Cardo', serif; /* פונט לכותרות */
+  font-family: 'Bona Nova SC', serif; /* פונט לכותרות */
   margin: 0;
   color: #84856d; /* צבע הכותרת */
 }
