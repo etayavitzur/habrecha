@@ -237,7 +237,8 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
       borderRadius: 12,
       boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
       padding: 20,
-      width: 660,  // יותר רחב
+  	width: "100vw",  // 80% מרוחב המסך
+	  maxWidth: 660, // אם רוצים גבול מקסימלי
       minHeight: 100, // יותר גבוה
       fontSize: 18,   // טקסט גדול יותר
       display: "flex",
@@ -261,7 +262,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   }}
 >
   <span>הוסף עדכון</span>  {/* הטקסט בצד ימין */}
-  <span>{'>'}</span>         {/* החץ בצד שמאל */}
+  <span style={{ color: "#000" }}>{'>'}</span>  {/* החץ תמיד שחור */}
 </button>
 
 <button
@@ -279,7 +280,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   }}
 >
   <span>השתתפו איתנו</span>
-  <span>{'>'}</span>
+  <span style={{ color: "#000" }}>{'>'}</span>  {/* החץ תמיד שחור */}
 </button>
 
 <button
@@ -297,7 +298,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   }}
 >
   <span>אודות</span>
-  <span>{'>'}</span>
+  <span style={{ color: "#000" }}>{'>'}</span>  {/* החץ תמיד שחור */}
 </button>
 
     </div>
@@ -308,8 +309,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   fontFamily: "'Cardo', serif",
   fontWeight: 700,
   marginBottom: 2,
-  marginRight: 8, // מרחק מהצד
-  marginTop: 4    // מרחק מהחלק העליון
+  
 }}>
   בס"ד
 </div>
@@ -322,7 +322,6 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   fontWeight: 700,
   fontFamily: "inherit",
   textAlign: "left",
-  marginRight: 8  // המרחק מהצד
   
 }}>
   עדכון מצב המעיין בסנסנה
