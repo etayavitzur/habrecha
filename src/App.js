@@ -214,7 +214,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   <div style={{
     position: "absolute",
     left: 12,
-    top: 12,
+    top: 20,
     cursor: "pointer",
     zIndex: 30
   }}
