@@ -261,7 +261,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
     direction: "rtl", // חשוב לעברית
   }}
 >
-  <span>הוסף עדכון</span>  {/* הטקסט בצד ימין */}
+    <span style={{ color: "#000" }}>הוסף עדכון</span>
   <span style={{ color: "#000" }}>{'>'}</span>  {/* החץ תמיד שחור */}
 </button>
 
@@ -279,7 +279,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
     direction: "rtl",
   }}
 >
-  <span>השתתפו איתנו</span>
+  <span style={{ color: "#000" }}>השתתפו איתנו</span>
   <span style={{ color: "#000" }}>{'>'}</span>  {/* החץ תמיד שחור */}
 </button>
 
@@ -297,7 +297,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
     direction: "rtl",
   }}
 >
-  <span>אודות</span>
+<span style={{ color: "#000" }}>אודות</span>
   <span style={{ color: "#000" }}>{'>'}</span>  {/* החץ תמיד שחור */}
 </button>
 
@@ -320,7 +320,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   <div style={{
   fontSize: 18,
   fontWeight: 700,
-  fontFamily: "inherit",
+  fontFamily: "'Cardo', serif",
   textAlign: "left",
   
 }}>
@@ -415,7 +415,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
               <div style={{ color: "#000", fontSize: 16, fontWeight: 700, marginBottom: 8 }}>
                 {current.createdAt
                   ? (Date.now() - current.createdAt.getTime()) < 1000 * 60 * 60 * 24
-                    ? `עברו ${hoursAgo(current.createdAt)} השעות מאז העדכון האחרון`
+                    ? `עברו ${hoursAgo(current.createdAt)} שעות מאז העדכון האחרון`
                     : `עברו ${daysAgo(current.createdAt)} הימים מאז העדכון האחרון`
                   : "-"}
               </div>
