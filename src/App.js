@@ -309,6 +309,9 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   fontFamily: "'Cardo', serif",
   fontWeight: 700,
   marginBottom: 2,
+  marginRight: 20,  // מרחק מהצד
+  marginTop: 10
+  
   
 }}>
   בס"ד
@@ -322,6 +325,9 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   fontWeight: 700,
   fontFamily: "'Cardo', serif",
   textAlign: "left",
+  marginRight: 20,  // מרחק מהצד
+  marginTop: 0
+ 
   
 }}>
   עדכון מצב המעיין בסנסנה
