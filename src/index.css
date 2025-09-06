@@ -1,3 +1,8 @@
+html, body {
+  background-color: #00FF00; /* ירוק בסיסי שצובע את הסטטוס בר */
+}
+
+
 /* פונטים */
 @import url('https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Varela+Round&display=swap');
 
