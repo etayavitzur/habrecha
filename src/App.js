@@ -70,6 +70,10 @@ useEffect(() => {
   const [showLimitPopup, setShowLimitPopup] = useState(false);
 const [lightboxOpen, setLightboxOpen] = useState(false);
 const [lightboxIndex, setLightboxIndex] = useState(0);
+const [showAccessibility, setShowAccessibility] = useState(false);
+const [showPrivacy, setShowPrivacy] = useState(false);
+
+
 
   async function fetchUpdates() {
     setLoading(true);
@@ -227,20 +231,41 @@ if (last && last.createdAt) {
 }}>
 
   {/* כפתור התפריט */}
-  <div style={{
+<div
+  style={{
     position: "absolute",
     left: 12,
     top: 20,
     cursor: "pointer",
-    zIndex: 30
+    zIndex: 30,
+    width: 30,
+    height: 24,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   }}
-  onClick={() => setMenuOpen(prev => !prev)}>
-    <img
-      src="https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/menu.png?alt=media&token=baefc9fa-08e9-48fb-84f6-530e1307ff68"
-      alt="Menu"
-      style={{ width: 24, height: 24 }}
-    />
-  </div>
+  onClick={() => setMenuOpen((prev) => !prev)}
+>
+  <span style={{
+    display: "block",
+    height: 4,
+    backgroundColor: "#000",
+    borderRadius: 2
+  }} />
+  <span style={{
+    display: "block",
+    height: 4,
+    backgroundColor: "#000",
+    borderRadius: 2
+  }} />
+  <span style={{
+    display: "block",
+    height: 4,
+    backgroundColor: "#000",
+    borderRadius: 2
+  }} />
+</div>
+
 
  {/* תפריט קופץ */}
 {menuOpen && (
@@ -672,7 +697,7 @@ if (last && last.createdAt) {
 <div
   style={{
     color: ACCENT_COLOR,
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "right", // יישור לימין
     fontFamily: "inherit", // פונט ברירת מחדל
     marginBottom: 12, // רווח מתחת לטקסט
@@ -680,11 +705,169 @@ if (last && last.createdAt) {
   }}
 >
   <p>הבריכה שוכנת ליד סנסנה ומהווה פינת טבע פתוחה לכולם.</p>
-  <p>המקום נבנה במאמץ רב על ידי בני נוער ובוגרי היישוב, חלקם חיילים שלקחו חלק בלחימה, לזכר חללי ונופלי מלחמת חרבות הברזל.</p>
-  <p>הבריכה חפורה מבטון בגובה של שתי מטר, ומסביבה פינות ישיבה מוצלות, פרגולה ופינת מדורה – מקום מושלם למפגש, מנוחה והתרעננות.</p>
-  <p>בואו להתרשם, ליהנות ולהיות חלק מהעשייה!</p>
+  <p style={{ marginTop: 7 }}>המקום נבנה במאמץ רב על ידי בני נוער ובוגרי היישוב, חלקם חיילים שלקחו חלק בלחימה, לזכר חללי ונופלי מלחמת חרבות הברזל.</p>
+  <p style={{ marginTop: 7 }}>הבריכה חפורה מבטון בגובה של שתי מטר, ומסביבה פינות ישיבה מוצלות, פרגולה ופינת מדורה – מקום מושלם למפגש, מנוחה והתרעננות.</p>
+  <p style={{ marginTop: 7 }}>בואו להתרשם, ליהנות ולהיות חלק מהעשייה!</p>
   <p>לאחר הביקור, מוזמנים להשאיר עדכון באתר על מצב המים במעיין.</p>
 </div>
+
+
+
+
+
+{/* טקסט תחתון */}
+<div
+  style={{
+    textAlign: "center",
+    fontSize: 12,
+    color: "#555",
+    marginTop: 40,
+    lineHeight: 1.8,
+  }}
+>
+  <p>מונע על ידי הקהילה</p>
+  <p>
+  <a
+  href="#"
+  style={{ color: "#555", textDecoration: "underline", cursor: "pointer" }}
+  onClick={(e) => {
+    e.preventDefault(); // מונע את הקפיצה המיידית
+    window.scrollTo({ top: 0, behavior: "smooth" }); // גלילה חלקה למעלה
+  }}
+>
+  עמוד ראשי
+</a>
+{" "}
+  -{" "}
+  <span
+    style={{ color: "#555", cursor: "pointer", textDecoration: "underline" }}
+    onClick={() => setShowPrivacy(true)}
+  >
+    מדיניות פרטיות
+  </span>{" "}
+  -{" "}
+  <span
+    style={{ color: "#555", cursor: "pointer", textDecoration: "underline" }}
+    onClick={() => setShowAccessibility(true)}
+  >
+    הצהרת נגישות
+  </span>
+</p>
+<p>Created by Itay</p>
+
+</div>
+
+{/* חלון צף הצהרת נגישות */}
+{showAccessibility && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0,0,0,0.5)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1000,
+    }}
+  >
+    <div
+      style={{
+        background: "#fff",
+        padding: 20,
+        borderRadius: 8,
+        maxWidth: "500px",
+        textAlign: "right",
+        fontSize: 14,
+        lineHeight: 1.6,
+      }}
+    >
+      <h3>הצהרת נגישות</h3>
+      <p>
+        אתר זה פועל כדי להיות נגיש לכלל האוכלוסייה, לרבות אנשים עם מוגבלויות.
+        אנו שואפים לעמוד בהנחיות הנגישות ברמה AA בהתאם לתקן הישראלי.
+      </p>
+      <p>
+        במידה שנתקלתם בקושי כלשהו בגלישה באתר, נשמח אם תפנו אלינו כדי שנוכל לטפל
+        בכך בהקדם.
+      </p>
+      <button
+        style={{
+          marginTop: 15,
+          padding: "6px 12px",
+          backgroundColor: "#333",
+          color: "#fff",
+          border: "none",
+          borderRadius: 4,
+          cursor: "pointer",
+        }}
+        onClick={() => setShowAccessibility(false)}
+      >
+        סגור
+      </button>
+    </div>
+  </div>
+)}
+
+{/* חלון צף מדיניות פרטיות */}
+{showPrivacy && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0,0,0,0.5)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1000,
+    }}
+  >
+    <div
+      style={{
+        background: "#fff",
+        padding: 20,
+        borderRadius: 8,
+        maxWidth: "500px",
+        textAlign: "right",
+        fontSize: 14,
+        lineHeight: 1.6,
+      }}
+    >
+      <h3>מדיניות פרטיות</h3>
+      <p>
+        באתר זה אנו שומרים על פרטיות המשתמשים ומגנים על המידע האישי שלהם. פרסום תמונות,
+        שימוש באתר ונתונים אישיים מתבצע בהתאם למדיניות זו.
+      </p>
+      <p>
+        אנא קראו את ההנחיות לפני פרסום תוכן באתר.
+      </p>
+      <button
+        style={{
+          marginTop: 15,
+          padding: "6px 12px",
+          backgroundColor: "#333",
+          color: "#fff",
+          border: "none",
+          borderRadius: 4,
+          cursor: "pointer",
+        }}
+        onClick={() => setShowPrivacy(false)}
+      >
+        סגור
+      </button>
+    </div>
+  </div>
+)}
+
+
+
+
+
 
 
       </main>
