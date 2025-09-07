@@ -373,7 +373,7 @@ if (last && last.createdAt) {
         if (navigator.share) {
           navigator.share({
             title: "עדכון מצב המעיין בסנסנה",
-            text: "תראה את האתר הזה:",
+            text: "תראה את האתר הנוכחי:",
             url: window.location.href,
           }).catch((error) => console.log("שגיאת שיתוף:", error));
         } else {
@@ -515,9 +515,9 @@ if (last && last.createdAt) {
               <div style={{ color: "#000", fontSize: 16, fontWeight: 700, marginBottom: 8 }}>
                 {current.createdAt
                   ? (Date.now() - current.createdAt.getTime()) < 1000 * 60 * 60 * 24
-                    ? `עברו ${hoursAgo(current.createdAt)} שעות מאז העדכון האחרון`
+                    ? `עברו ${hoursAgo(current.createdAt)} שעות מאז העדכון הנוכחי`
 					
-                    : `עברו ${daysAgo(current.createdAt)} ימים מאז העדכון האחרון`
+                    : `עברו ${daysAgo(current.createdAt)} ימים מאז העדכון הנוכחי`
                   : "-"}
               </div>
 
@@ -1118,12 +1118,38 @@ if (last && last.createdAt) {
     }}
     onClick={() => setLightboxOpen(false)}
   >
-    <img
-      src={updates[lightboxIndex]?.imageUrl}
-      alt="עדכון"
-      style={{ maxWidth: "95%", maxHeight: "80%", marginBottom: 12 }}
-    />
+    <div style={{ position: "relative", display: "inline-block" }}>
+      <img
+        src={updates[lightboxIndex]?.imageUrl}
+        alt="עדכון"
+        style={{ maxWidth: "95%", maxHeight: "80%", marginBottom: 12 }}
+      />
+      {/* טקסט מעל התמונה */}
+      <div
+        style={{
+          position: "absolute",
+          top: -50,
+          left: "50%",
+          transform: "translateX(-50%)",
+          color: "#fff",
+          padding: "4px 12px",
+          borderRadius: 6,
+          fontSize: 18,
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        {updates[lightboxIndex]?.createdAt
+          ? (Date.now() - new Date(updates[lightboxIndex].createdAt).getTime()) < 1000 * 60 * 60 * 24
+            ? `עברו ${hoursAgo(new Date(updates[lightboxIndex].createdAt))} שעות מאז העדכון הנוכחי`
+            : `עברו ${daysAgo(new Date(updates[lightboxIndex].createdAt))} ימים מאז העדכון הנוכחי`
+          : "-"}
+      </div>
+    </div>
+
     <div style={{ display: "flex", gap: 12 }}>
+      
+
   {/* כפתור הקודם */}
   <button
     onClick={(e) => {
