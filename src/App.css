@@ -1,9 +1,6 @@
 /* רקע האתר */
 body {
-  background-image: url('https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/background_mobile_new.webp?alt=media&token=ecc773a6-b1b6-433d-8157-6bb41f736e5a');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: linear-gradient(135deg, #c7e6b2, #f5fbe5, #d3f2a2);
   font-family: 'Varela Round', sans-serif; /* ברירת מחדל לכל הטקסט */
   margin: 0;
   direction: rtl;

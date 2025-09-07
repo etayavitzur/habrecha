@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { storage, db } from "./firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
@@ -41,6 +41,25 @@ export default function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 const [menuOpen, setMenuOpen] = useState(false);
+const menuRef = useRef(null);
+useEffect(() => {
+  function handleClickOutside(event) {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setMenuOpen(false);
+    }
+  }
+
+  if (menuOpen) {
+    document.addEventListener("mousedown", handleClickOutside);
+  } else {
+    document.removeEventListener("mousedown", handleClickOutside);
+  }
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [menuOpen]);
+
 
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [file, setFile] = useState(null);
@@ -136,19 +155,18 @@ if (last && last.createdAt) {
   }
 
   return (
-    <div
-      style={{
-        fontFamily: "'Varela Round', sans-serif",
-        background: "url('https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/background_mobile_new.webp?alt=media&token=ecc773a6-b1b6-433d-8157-6bb41f736e5a') no-repeat center/cover",
-        minHeight: "100vh",
-        paddingBottom: 140,
-        textAlign: "center",
-      }}
-    >
+  <div
+    style={{
+      fontFamily: "'Varela Round', sans-serif",
+      background: "linear-gradient(135deg, #c7e6b2, #f5fbe5, #d3f2a2)",
+      minHeight: "100vh",
+      paddingBottom: 140,
+      textAlign: "center",
+    }}
+  >
+
 	
-	
-	
-{/* חלון "האתר בשיפוצים" משודרג *}
+	{/*
 <div
   style={{
     position: "fixed",
@@ -156,7 +174,7 @@ if (last && last.createdAt) {
     left: 0,
     width: "100vw",
     height: "100vh",
-background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
+    background: "rgba(128,128,128,0.9)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -164,29 +182,27 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   }}
 >
   <div
-  style={{
-    color: "#000",
-    fontSize: 48,
-    fontWeight: 900,
-    textAlign: "center",
-    padding: 40,
-    borderRadius: 20,
-    background: "#fff", // לבן מלא
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 20,
-  }}
->
-
+    style={{
+      color: "#000",
+      fontSize: 48,
+      fontWeight: 900,
+      textAlign: "center",
+      padding: 40,
+      borderRadius: 20,
+      background: "#fff",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 20,
+    }}
+  >
     <div style={{ fontSize: 64 }}>🔧</div>
     <div>האתר בשיפוצים</div>
     <div style={{ fontSize: 24, fontWeight: 500 }}>חוזרים בקרוב!</div>
   </div>
 </div>
-/*
+*/}
 
-	
 	
 	
       {/* Header */}
@@ -226,27 +242,31 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
     />
   </div>
 
-  {/* תפריט קופץ */}
-  {menuOpen && (
-    <div
-      style={{
+ {/* תפריט קופץ */}
+{menuOpen && (
+  <div
+    ref={menuRef}
+    style={{
       position: "absolute",
-      top: 63,  // קצת מתחת לכפתור
-      left: 0,
+      top: 60,
+      left: "50%",           // ממקם את התפריט במרכז
+      transform: "translateX(-50%)", // מזיז חצי רוחב שמאלה כדי למרכז
       background: "#fff",
       borderRadius: 12,
       boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
       padding: 20,
-  	width: "100vw",  // 80% מרוחב המסך
-	  maxWidth: 660, // אם רוצים גבול מקסימלי
-      minHeight: 100, // יותר גבוה
-      fontSize: 18,   // טקסט גדול יותר
+      width: "100vw",          // 80% מרוחב המסך
+      maxWidth: 660,          // עדיין מגבלה למכשירים גדולים
+      minHeight: 100,
+      fontSize: 18,
       display: "flex",
       flexDirection: "column",
-      gap: 10,
+      gap: 9,
       zIndex: 50,
-      }}
-    >
+    }}
+  >
+
+
       <button
   onClick={() => { setShowUploadModal(true); setMenuOpen(false); }}
   style={{
@@ -282,9 +302,11 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
   <span style={{ color: "#000" }}>השתתפו איתנו</span>
   <span style={{ color: "#000" }}>{'>'}</span>  {/* החץ תמיד שחור */}
 </button>
-
 <button
-  onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setMenuOpen(false); }}
+  onClick={() => {
+    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false);
+  }}
   style={{
     padding: "8px 16px",
     display: "flex",
@@ -297,9 +319,41 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
     direction: "rtl",
   }}
 >
-<span style={{ color: "#000" }}>אודות</span>
-  <span style={{ color: "#000" }}>{'>'}</span>  {/* החץ תמיד שחור */}
+  <span style={{ color: "#000" }}>אודות</span>
+  <span style={{ color: "#000" }}>{'>'}</span>
 </button>
+
+
+<button
+  onClick={() => {
+    setMenuOpen(false);
+    if (navigator.share) {
+      navigator.share({
+        title: "עדכון מצב המעיין בסנסנה",
+        text: "תראה את האתר הזה:",
+        url: window.location.href, // הקישור הנוכחי
+      }).catch((error) => console.log("שגיאת שיתוף:", error));
+    } else {
+      // fallback למקרה שהדפדפן לא תומך
+      alert("השיתוף לא נתמך בדפדפן שלך. העתק את הקישור: " + window.location.href);
+    }
+  }}
+  style={{
+    padding: "8px 16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    border: "none",
+    background: "none",
+    cursor: "pointer",
+    fontSize: 14,
+    direction: "rtl",
+  }}
+>
+  <span style={{ color: "#000" }}>שיתוף</span>
+  <span style={{ color: "#000" }}>{'>'}</span> {/* החץ תמיד שחור */}
+</button>
+
 
     </div>
   )}
@@ -422,7 +476,8 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
                 {current.createdAt
                   ? (Date.now() - current.createdAt.getTime()) < 1000 * 60 * 60 * 24
                     ? `עברו ${hoursAgo(current.createdAt)} שעות מאז העדכון האחרון`
-                    : `עברו ${daysAgo(current.createdAt)} הימים מאז העדכון האחרון`
+					
+                    : `עברו ${daysAgo(current.createdAt)} ימים מאז העדכון האחרון`
                   : "-"}
               </div>
 
@@ -556,25 +611,64 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
             </div>
           </div>
         )}
+{/* אזור השתתפות */}
+<div
+  style={{
+    background: "#fff",
+    borderRadius: 14,
+    padding: "12px 16px",
+    margin: "12px 0",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+    textAlign: "center",
+    color: ACCENT_COLOR,
+    fontSize: 16,
+  }}
+>
+  המעיין מתוחזק על ידי בוגרי הישוב. אם נהנתם, נשמח להשתתפותכם בתחזוקת המעיין.
+  <div style={{ marginTop: 10 }}>
+    <a
+      href={DONATE_URL} // הקישור ל-BITPAY
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: "inline-block",
+        padding: "8px 16px",
+        borderRadius: 12,
+        background: "linear-gradient(135deg, #3ebcc0, #2b658a)",
+        color: "#fff",
+        textDecoration: "none",
+        fontWeight: 700,
+      }}
+    >
+      השתתפו דרך BIT
+    </a>
+  </div>
+</div>
 
         {/* About section below history */}
-        <h3
+      <h3
+  id="about"
   style={{
     color: ACCENT_COLOR,
-    marginTop: 10, // <-- מוסיף רווח מעל הכיתוב
+    marginTop: 10,
     marginBottom: 8,
     fontWeight: 600,
     fontSize: "18px",
     background: "#fff",
     display: "inline-block",
     padding: "4px 8px",
+    textAlign: "center",
     borderRadius: 8,
     boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
   }}
 >
-	 מעיין לזכר נופלי <br />
-   מלחמת חרבות ברזל
+
+
+
+  מעיין לזכר נופלי <br />
+  מלחמת חרבות ברזל
 </h3>
+
 <div
   style={{
     color: ACCENT_COLOR,
@@ -613,7 +707,7 @@ background: "rgba(128,128,128,0.9)", // אפור חצי שקוף
     width: 60,
     height: 60,
     borderRadius: 30,
-    background: ACCENT_COLOR,
+	background: "linear-gradient(135deg, #84836b, #c9c8a3)",
     color: "#fff",
     fontSize: 34,
     fontWeight: 700,

@@ -13,12 +13,13 @@
 /* גוף האתר */
 body {
   font-family: 'Varela Round', sans-serif;
-  background: url('https://firebasestorage.googleapis.com/v0/b/habrecha-a69d3.firebasestorage.app/o/background_mobile_new.webp?alt=media&token=ecc773a6-b1b6-433d-8157-6bb41f736e5a') no-repeat center/cover;
+  background: linear-gradient(135deg, #c7e6b2, #f5fbe5, #d3f2a2);
   color: #333;
   min-height: 100vh;
   text-align: right; /* יישור טקסטים לימין */
   direction: rtl;
 }
+
 
 /* כותרות */
 h1, h2, h3, h4, h5, h6 {
