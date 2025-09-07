@@ -256,7 +256,7 @@ if (last && last.createdAt) {
       borderRadius: 2,
       transition: "0.3s",
       transform: menuOpen
-        ? "rotate(45deg) translateY(12.5px)"  // הקו העליון זז למרכז ומסתובב
+        ? "rotate(45deg) translateY(13px)"  // הקו העליון זז למרכז ומסתובב
         : "rotate(0deg) translateY(0px)",   // כשהתפריט סגור, העליון נשאר למעלה
     }}
   />
@@ -278,7 +278,7 @@ if (last && last.createdAt) {
       borderRadius: 2,
       transition: "0.3s",
       transform: menuOpen
-        ? "rotate(-45deg) translateY(-12.5px)" // הקו התחתון זז למרכז ומסתובב
+        ? "rotate(-45deg) translateY(-13px)" // הקו התחתון זז למרכז ומסתובב
         : "rotate(0deg) translateY(0px)",    // כשהתפריט סגור, התחתון נשאר למטה
     }}
   />
