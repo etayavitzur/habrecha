@@ -230,158 +230,173 @@ if (last && last.createdAt) {
   marginBottom: 12
 }}>
 
-  {/* כפתור התפריט */}
+ {/* כפתור התפריט */}
 <div
   style={{
     position: "absolute",
     left: 12,
     top: 20,
-    cursor: "pointer",
-    zIndex: 30,
     width: 30,
     height: 24,
+    cursor: "pointer",
+    zIndex: 100,
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+    alignItems: "center",
   }}
-  onClick={() => setMenuOpen((prev) => !prev)}
+  onClick={() => setMenuOpen(prev => !prev)}
 >
-  <span style={{
-    display: "block",
-    height: 4,
-    backgroundColor: "#000",
-    borderRadius: 2
-  }} />
-  <span style={{
-    display: "block",
-    height: 4,
-    backgroundColor: "#000",
-    borderRadius: 2
-  }} />
-  <span style={{
-    display: "block",
-    height: 4,
-    backgroundColor: "#000",
-    borderRadius: 2
-  }} />
+  {/* הקווים */}
+  <span
+    style={{
+      width: "100%",
+      height: 4,
+      backgroundColor: "#000",
+      borderRadius: 2,
+      transition: "0.3s",
+      transform: menuOpen
+        ? "rotate(45deg) translateY(12.5px)"  // הקו העליון זז למרכז ומסתובב
+        : "rotate(0deg) translateY(0px)",   // כשהתפריט סגור, העליון נשאר למעלה
+    }}
+  />
+  <span
+    style={{
+      width: "100%",
+      height: 4,
+      backgroundColor: "#000",
+      borderRadius: 2,
+      transition: "0.3s",
+      opacity: menuOpen ? 0 : 1,  // הקו האמצעי נעלם כשפותחים
+    }}
+  />
+  <span
+    style={{
+      width: "100%",
+      height: 4,
+      backgroundColor: "#000",
+      borderRadius: 2,
+      transition: "0.3s",
+      transform: menuOpen
+        ? "rotate(-45deg) translateY(-12.5px)" // הקו התחתון זז למרכז ומסתובב
+        : "rotate(0deg) translateY(0px)",    // כשהתפריט סגור, התחתון נשאר למטה
+    }}
+  />
 </div>
 
 
- {/* תפריט קופץ */}
+
+
+{/* תפריט קופץ */}
 {menuOpen && (
   <div
     ref={menuRef}
     style={{
       position: "absolute",
       top: 60,
-      left: "50%",           // ממקם את התפריט במרכז
-      transform: "translateX(-50%)", // מזיז חצי רוחב שמאלה כדי למרכז
+      left: "50%",
+      transform: "translateX(-50%)",
       background: "#fff",
       borderRadius: 12,
       boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
       padding: 20,
-      width: "100vw",          // 80% מרוחב המסך
-      maxWidth: 660,          // עדיין מגבלה למכשירים גדולים
+      width: "90%",
+      maxWidth: 660,
       minHeight: 100,
       fontSize: 18,
       display: "flex",
       flexDirection: "column",
       gap: 9,
       zIndex: 50,
+      transition: "all 0.3s ease",
     }}
+	onClick={() => setMenuOpen(prev => !prev)}
+
   >
+    <button
+      onClick={() => { setShowUploadModal(true); setMenuOpen(false); }}
+      style={{
+        padding: "8px 16px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        border: "none",
+        background: "none",
+        cursor: "pointer",
+        fontSize: 14,
+        direction: "rtl",
+      }}
+    >
+      <span style={{ color: "#000" }}>הוסף עדכון</span>
+      <span style={{ color: "#000" }}>{'>'}</span>
+    </button>
 
+    <button
+      onClick={() => { window.open(DONATE_URL, "_blank"); setMenuOpen(false); }}
+      style={{
+        padding: "8px 16px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        border: "none",
+        background: "none",
+        cursor: "pointer",
+        fontSize: 14,
+        direction: "rtl",
+      }}
+    >
+      <span style={{ color: "#000" }}>השתתפו איתנו</span>
+      <span style={{ color: "#000" }}>{'>'}</span>
+    </button>
 
-      <button
-  onClick={() => { setShowUploadModal(true); setMenuOpen(false); }}
-  style={{
-    padding: "8px 16px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    border: "none",
-    background: "none",
-    cursor: "pointer",
-    fontSize: 14,
-    direction: "rtl", // חשוב לעברית
-  }}
->
-    <span style={{ color: "#000" }}>הוסף עדכון</span>
-  <span style={{ color: "#000" }}>{'>'}</span>  {/* החץ תמיד שחור */}
-</button>
+    <button
+      onClick={() => { document.getElementById("about")?.scrollIntoView({ behavior: "smooth" }); setMenuOpen(false); }}
+      style={{
+        padding: "8px 16px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        border: "none",
+        background: "none",
+        cursor: "pointer",
+        fontSize: 14,
+        direction: "rtl",
+      }}
+    >
+      <span style={{ color: "#000" }}>אודות</span>
+      <span style={{ color: "#000" }}>{'>'}</span>
+    </button>
 
-<button
-  onClick={() => { window.open("https://www.bitpay.co.il/app/me/73EF2B16-D8BC-B7F6-E6B3-3A940D92593CFCF2", "_blank"); setMenuOpen(false); }}
-  style={{
-    padding: "8px 16px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    border: "none",
-    background: "none",
-    cursor: "pointer",
-    fontSize: 14,
-    direction: "rtl",
-  }}
->
-  <span style={{ color: "#000" }}>השתתפו איתנו</span>
-  <span style={{ color: "#000" }}>{'>'}</span>  {/* החץ תמיד שחור */}
-</button>
-<button
-  onClick={() => {
-    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
-    setMenuOpen(false);
-  }}
-  style={{
-    padding: "8px 16px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    border: "none",
-    background: "none",
-    cursor: "pointer",
-    fontSize: 14,
-    direction: "rtl",
-  }}
->
-  <span style={{ color: "#000" }}>אודות</span>
-  <span style={{ color: "#000" }}>{'>'}</span>
-</button>
-
-
-<button
-  onClick={() => {
-    setMenuOpen(false);
-    if (navigator.share) {
-      navigator.share({
-        title: "עדכון מצב המעיין בסנסנה",
-        text: "תראה את האתר הזה:",
-        url: window.location.href, // הקישור הנוכחי
-      }).catch((error) => console.log("שגיאת שיתוף:", error));
-    } else {
-      // fallback למקרה שהדפדפן לא תומך
-      alert("השיתוף לא נתמך בדפדפן שלך. העתק את הקישור: " + window.location.href);
-    }
-  }}
-  style={{
-    padding: "8px 16px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    border: "none",
-    background: "none",
-    cursor: "pointer",
-    fontSize: 14,
-    direction: "rtl",
-  }}
->
-  <span style={{ color: "#000" }}>שיתוף</span>
-  <span style={{ color: "#000" }}>{'>'}</span> {/* החץ תמיד שחור */}
-</button>
-
-
-    </div>
-  )}
+    <button
+      onClick={() => {
+        setMenuOpen(false);
+        if (navigator.share) {
+          navigator.share({
+            title: "עדכון מצב המעיין בסנסנה",
+            text: "תראה את האתר הזה:",
+            url: window.location.href,
+          }).catch((error) => console.log("שגיאת שיתוף:", error));
+        } else {
+          alert("השיתוף לא נתמך בדפדפן שלך. העתק את הקישור: " + window.location.href);
+        }
+      }}
+      style={{
+        padding: "8px 16px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        border: "none",
+        background: "none",
+        cursor: "pointer",
+        fontSize: 14,
+        direction: "rtl",
+      }}
+    >
+      <span style={{ color: "#000" }}>שיתוף</span>
+      <span style={{ color: "#000" }}>{'>'}</span>
+    </button>
+  </div>
+)}
 
   <div style={{
   fontSize: 12,
