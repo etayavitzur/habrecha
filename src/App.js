@@ -475,12 +475,14 @@ if (last && last.createdAt) {
               marginBottom: 12,
             }}
           >
+		   {/*תאריך קטן */}
             <div style={{ position: "relative" }}>
               <div
                 style={{
                   position: "absolute",
                   left: 12,
                   top: 12,
+				  fontWeight: 600,
                   background: "rgba(255,255,255,0.9)",
                   color: ACCENT_COLOR,
                   padding: "6px 10px",
@@ -691,7 +693,7 @@ if (last && last.createdAt) {
   style={{
     color: ACCENT_COLOR,
     marginTop: 10,
-    marginBottom: 8,
+    marginBottom: 5,
     fontWeight: 600,
     fontSize: "18px",
     background: "#fff",
@@ -700,6 +702,7 @@ if (last && last.createdAt) {
     textAlign: "center",
     borderRadius: 8,
     boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+	letterSpacing: "4px"
   }}
 >
 
@@ -712,16 +715,22 @@ if (last && last.createdAt) {
 <div
   style={{
     color: ACCENT_COLOR,
-    fontSize: 20,
-    textAlign: "right", // יישור לימין
-    fontFamily: "inherit", // פונט ברירת מחדל
-    marginBottom: 12, // רווח מתחת לטקסט
-	paddingRight: 12,
+    marginTop: 10,
+    marginBottom: 8,
+    fontWeight: 550,
+    fontSize: "18px",
+    fontFamily: "inherit", // פונט ברירת מחדל   
+   background: "#fff",
+    display: "inline-block",
+    padding: "4px 8px",
+    textAlign: "right",
+    borderRadius: 8,
+    boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
   }}
 >
   <p>הבריכה שוכנת ליד סנסנה ומהווה פינת טבע פתוחה לכולם.</p>
   <p style={{ marginTop: 7 }}>המקום נבנה במאמץ רב על ידי בני נוער ובוגרי היישוב, חלקם חיילים שלקחו חלק בלחימה, לזכר חללי ונופלי מלחמת חרבות הברזל.</p>
-  <p style={{ marginTop: 7 }}>הבריכה חפורה מבטון בגובה של שתי מטר, ומסביבה פינות ישיבה מוצלות, פרגולה ופינת מדורה – מקום מושלם למפגש, מנוחה והתרעננות.</p>
+  <p style={{ marginTop: 7 }}>הבריכה חפורה מבטון בגובה של שתי מטר, ומסביבה פינות ישיבה מוצלות, פרגולה ופינת מדורה מקום מושלם למפגש, מנוחה והתרעננות.</p>
   <p style={{ marginTop: 7 }}>בואו להתרשם, ליהנות ולהיות חלק מהעשייה!</p>
   <p>לאחר הביקור, מוזמנים להשאיר עדכון באתר על מצב המים במעיין.</p>
 </div>
@@ -1101,7 +1110,7 @@ if (last && last.createdAt) {
           </div>
         </div>
       )}
-	  {lightboxOpen && (
+	 {lightboxOpen && (
   <div
     style={{
       position: "fixed",
@@ -1118,38 +1127,18 @@ if (last && last.createdAt) {
     }}
     onClick={() => setLightboxOpen(false)}
   >
-    <div style={{ position: "relative", display: "inline-block" }}>
-      <img
-        src={updates[lightboxIndex]?.imageUrl}
-        alt="עדכון"
-        style={{ maxWidth: "95%", maxHeight: "80%", marginBottom: 12 }}
-      />
-      {/* טקסט מעל התמונה */}
-      <div
-        style={{
-          position: "absolute",
-          top: -50,
-          left: "50%",
-          transform: "translateX(-50%)",
-          color: "#fff",
-          padding: "4px 12px",
-          borderRadius: 6,
-          fontSize: 18,
-          fontWeight: "bold",
-          textAlign: "center",
-        }}
-      >
-        {updates[lightboxIndex]?.createdAt
-          ? (Date.now() - new Date(updates[lightboxIndex].createdAt).getTime()) < 1000 * 60 * 60 * 24
-            ? `עברו ${hoursAgo(new Date(updates[lightboxIndex].createdAt))} שעות מאז העדכון הנוכחי`
-            : `עברו ${daysAgo(new Date(updates[lightboxIndex].createdAt))} ימים מאז העדכון הנוכחי`
-          : "-"}
-      </div>
-    </div>
+    <img
+      src={updates[lightboxIndex]?.imageUrl}
+      alt="עדכון"
+      style={{
+        maxWidth: "95%",
+        maxHeight: "80%",
+        marginBottom: 12,
+      }}
+    />
 
     <div style={{ display: "flex", gap: 12 }}>
-      
-
+    
   {/* כפתור הקודם */}
   <button
     onClick={(e) => {
